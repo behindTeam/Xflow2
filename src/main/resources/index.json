@@ -1,0 +1,4 @@
+{
+    "applicationName": "ThisIsApplicationName",
+    "sensor": "temperature,humidity"
+}

@@ -1,0 +1,62 @@
+[
+    [
+        {
+            "id": "629ae45871adbc47",
+            "type": "mqtt in",
+            "name": "",
+            "topic": "application/#",
+            "qos": "2",
+            "datatype": "auto-detect",
+            "broker": "a1d825dd77ef1aa5",
+            "inputs": 0,
+            "wires": [
+                [
+                    "3bb32f29566bae7a"
+                ]
+            ]
+        },
+        {
+            "id": "3bb32f29566bae7a",
+            "type": "messageParsing",
+            "name": "function 4",
+            "outputs": 1,
+            "wires": [
+                [
+                    "8f2498016192317b"
+                ]
+            ]
+        },
+        {
+            "id": "8f2498016192317b",
+            "type": "mqtt out",
+            "name": "",
+            "topic": "",
+            "qos": "",
+            "broker": "87dcaaefe49f26d3",
+            "wires": []
+        },
+        {
+            "id": "a1d825dd77ef1aa5",
+            "type": "mqtt-broker",
+            "name": "NHN Academy EMS",
+            "broker": "ems.nhnacademy.com",
+            "port": "1883",
+            "clientid": ""
+        },
+        {
+            "id": "87dcaaefe49f26d3",
+            "type": "mqtt-broker",
+            "name": "localhost",
+            "broker": "mosquitto",
+            "port": "1883",
+            "clientid": ""
+        }
+    ],
+    [
+        {
+            "deviceEui": "24e124128c067999",
+            "applicationName": "NHNAcademyEMS",
+            "sensor": "hummidity,temperature,co2"
+        }
+    ]
+]
