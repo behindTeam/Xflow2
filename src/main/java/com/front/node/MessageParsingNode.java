@@ -13,8 +13,6 @@ public class MessageParsingNode extends InputOutputNode {
     Wire settingWire;
     Wire mqttWire;
     Message message;
-
-    String ApplicationName;
     String[] sensor;
     JSONParser parser;
     JSONObject settings;
@@ -60,6 +58,10 @@ public class MessageParsingNode extends InputOutputNode {
 
             JSONObject deviceInfo = (JSONObject) payload.get("deviceInfo");
             JSONObject object = (JSONObject) payload.get("object");
+            String targetSensor = (String)settings.get("sensor");
+            
+
+
 
             String commonTopic = "data";
 
