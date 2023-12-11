@@ -104,8 +104,7 @@ public class MessageParsingNode extends InputOutputNode {
 
                                     JSONObject newMessage = new JSONObject();
                                     newMessage.put("payload", sensorData);
-                                    output(new MyMqttMessage(myMqttMessage.getSenderId(),
-                                            commonTopic + "/e/" + sensorType.toString(),
+                                    output(new MyMqttMessage(myMqttMessage.getSenderId(),commonTopic + "/e/" + sensorType.toString(),
                                             newMessage.toJSONString().getBytes()));
                                 }
                         }
