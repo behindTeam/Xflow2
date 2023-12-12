@@ -1,19 +1,18 @@
 package com.front.message;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 public class ModbusMessage extends Message {
     byte[] adu;
-    UUID senderId;
+    byte unitId;
 
-    public ModbusMessage(UUID senderId, byte[] adu) {
+    public ModbusMessage(byte unitId, byte[] adu) {
         this.adu = Arrays.copyOf(adu, adu.length);
-        this.senderId = senderId;
+        this.unitId = unitId;
     }
 
-    public UUID getSenderId() {
-        return senderId;
+    public byte getUnitId() {
+        return unitId;
     }
 
     public byte[] getAdu() {

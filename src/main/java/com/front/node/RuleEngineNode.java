@@ -35,11 +35,12 @@ public class RuleEngineNode extends InputOutputNode {
     @Override
     void process() {
         if ((getInputWire(0) != null) && (getInputWire(0).hasMessage())) {
-            Message myMqttMessage = getInputWire(0).get();
-            if (myMqttMessage instanceof MyMqttMessage
-                    && Objects.nonNull(((MyMqttMessage) myMqttMessage).getPayload())) {
-
-            }
+            Message jsonMessage = getInputWire(0).get();
+            // if( jsonMessage )
+            // if (myMqttMessage instanceof MyMqttMessage
+            //         && Objects.nonNull(((MyMqttMessage) myMqttMessage).getPayload())) {
+                        
+            // }
         }
     }
 

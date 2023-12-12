@@ -10,6 +10,7 @@ import java.util.Arrays;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 
 import com.front.SimpleMB;
+import com.front.message.ModbusMessage;
 import com.front.wire.Wire;
 
 public class ModbusReadNode extends InputOutputNode {
@@ -54,9 +55,9 @@ public class ModbusReadNode extends InputOutputNode {
                 byte[] response = new byte[512];
                 int receivedLength = inputStream.read(response, 0, response.length);
 
-
-                System.out
-                        .println(Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)));
+                output(new ModbusMessage(response[7], response));
+                // System.out
+                // .println(Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)));
             }
 
         } catch (UnknownHostException e) {

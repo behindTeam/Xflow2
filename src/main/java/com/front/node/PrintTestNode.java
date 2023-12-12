@@ -10,7 +10,7 @@ import com.front.message.ModbusMessage;
 import com.front.message.MyMqttMessage;
 import com.front.wire.Wire;
 
-public class ModBusMapperNode extends InputOutputNode {
+public class PrintTestNode extends InputOutputNode {
     Wire outputWire;
     Wire inputWire;
     IMqttClient client;
@@ -18,11 +18,11 @@ public class ModBusMapperNode extends InputOutputNode {
     byte unitId;
     int[] holdingregisters = new int[100];
 
-    public ModBusMapperNode() {
+    public PrintTestNode() {
         this(1, 1);
     }
 
-    public ModBusMapperNode(int inCount, int outCount) {
+    public PrintTestNode(int inCount, int outCount) {
         super(inCount, outCount);
     }
 
@@ -39,9 +39,7 @@ public class ModBusMapperNode extends InputOutputNode {
     void process() {
         if ((getInputWire(0) != null) && (getInputWire(0).hasMessage())) {
             Message modbusMessage = getInputWire(0).get();
-            if (modbusMessage instanceof ModbusMessage) {
-                modbusMapper((ModbusMessage) modbusMessage);
-            }
+            System.out.println((JsonMessage) modbusMessage);
         }
     }
 
@@ -60,20 +58,6 @@ public class ModBusMapperNode extends InputOutputNode {
     // 우리가 가져와야할 값 unitId , data //
 
     public void modbusMapper(ModbusMessage modbusMessage) {
-
-        try {
-            unitId = modbusMessage.getAdu()[7];
-            value = modbusMessage.getAdu()[11];
-
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("unitId", unitId);
-            jsonObject.put("value", value);
-
-            System.out.println(jsonObject.toString());
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-
 
     }
 
