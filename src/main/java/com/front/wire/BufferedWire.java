@@ -7,6 +7,7 @@ import com.front.message.Message;
 
 public class BufferedWire implements Wire {
     Queue<Message> messageQueue;
+    int wireCount;
 
     public BufferedWire() {
         super();
