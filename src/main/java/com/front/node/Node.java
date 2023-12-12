@@ -1,6 +1,5 @@
 package com.front.node;
 
-import java.util.HashMap;
 import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
@@ -47,10 +46,6 @@ public abstract class Node {
     public UUID getId() {
         return id;
     }
-
-    // public void setId(UUID id) {
-    // this.id = id;
-    // }
 
     public String getName() {
         return name;

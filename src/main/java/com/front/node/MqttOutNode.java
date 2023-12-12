@@ -1,10 +1,8 @@
 package com.front.node;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
-import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -32,8 +30,7 @@ public class MqttOutNode extends InputOutputNode {
     }
 
     @Override
-    void preprocess() {
-    }
+    void preprocess() {}
 
     @Override
     void process() {
@@ -48,8 +45,7 @@ public class MqttOutNode extends InputOutputNode {
     }
 
     @Override
-    void postprocess() {
-    }
+    void postprocess() {}
 
     public void publish(MyMqttMessage inMessage) {
         cunnetId = UUID.randomUUID();

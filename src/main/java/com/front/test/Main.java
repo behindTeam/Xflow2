@@ -1,6 +1,5 @@
 package com.front.test;
 
-import com.front.message.JsonMessage;
 import com.front.message.Message;
 import com.front.message.StringArrayMessage;
 import com.front.node.MessageParsingNode;
@@ -21,7 +20,6 @@ public class Main {
         node.connectOutputWire(0, wire2);
         node.start();
         node.join();
-        JsonMessage message = (JsonMessage) wire2.get();
         msgNode.connectInputWire(0, wire2);
 
     }

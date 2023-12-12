@@ -14,7 +14,6 @@ public class MessageParsingNode extends InputOutputNode {
     Wire mqttWire;
     Message message;
 
-    String ApplicationName;
     String[] sensor;
     JSONParser parser;
     JSONObject settings;

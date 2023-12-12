@@ -32,7 +32,7 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.json.simple.JSONArray;
 
-//세팅을 적용시키는 클래스, main문을 포함한다.
+// 세팅을 적용시키는 클래스, main문을 포함한다.
 public class Configurations {
     static int count = 0;
     private static Map<Node, JSONArray> map = new HashMap<>();
@@ -85,7 +85,8 @@ public class Configurations {
     }
 
     // 노드 객체를 동적으로 생성하는 메서드
-    private static void createNodeInstance(JSONObject jsonObject, String nodeType) throws MqttException {
+    private static void createNodeInstance(JSONObject jsonObject, String nodeType)
+            throws MqttException {
         try {
             String nodeName = null;
             if (nodeType.equals("mqtt in")) {
@@ -119,7 +120,8 @@ public class Configurations {
             // 노드 타입에 따른 설정 분배
             switch (nodeName) {
                 case "com.front.node.MessageParsingNode":
-                    Method configureSettingsMethod = clazz.getMethod("configureSettings", JSONObject.class);
+                    Method configureSettingsMethod =
+                            clazz.getMethod("configureSettings", JSONObject.class);
                     JSONObject settings = (JSONObject) ((JSONArray) (jsonArray.get(1))).get(0);
                     settings.putAll(processCommandLine(configurationArgs));
                     configureSettingsMethod.invoke(node, settings);
@@ -147,10 +149,12 @@ public class Configurations {
             Object wire = clazz.getDeclaredConstructor().newInstance();
 
             Class<?> nodeClazz = Class.forName(nodeName);
-            Method connectOutputWireMethod = nodeClazz.getMethod("connectOutputWire", int.class, Wire.class); // 메소드
-                                                                                                              // 호출
-            Method connectInputWireMethod = nodeClazz.getMethod("connectInputWire", int.class, Wire.class); // 메소드
-                                                                                                            // 호출
+            Method connectOutputWireMethod =
+                    nodeClazz.getMethod("connectOutputWire", int.class, Wire.class); // 메소드
+                                                                                     // 호출
+            Method connectInputWireMethod =
+                    nodeClazz.getMethod("connectInputWire", int.class, Wire.class); // 메소드
+                                                                                    // 호출
 
             connectOutputWireMethod.invoke(before, 0, wire);
             connectInputWireMethod.invoke(after, 0, wire);
@@ -181,7 +185,8 @@ public class Configurations {
     }
 
     // string ars[]의 내용을 적용시켜주는 메서드
-    public static JSONObject processCommandLine(String[] args) throws org.json.simple.parser.ParseException {
+    public static JSONObject processCommandLine(String[] args)
+            throws org.json.simple.parser.ParseException {
         String usage = "scurl [option] url";
         String path = "src/main/java/com/front/resources/settings.json";
 
@@ -189,8 +194,8 @@ public class Configurations {
         cliOptions.addOption(new Option("applicationName", "an", true,
                 "프로그램 옵션으로 Application Name을 줄 수 있으며, application name이 주어질 경우 해당 메시지만 수신하도록 한다."));
         cliOptions.addOption(new Option("s", true, "허용 가능한 센서 종류를 지정할 수 있다."));
-        cliOptions.addOption(
-                new Option("c", false, "설정 파일과 command line argument라 함께 주어질 경우 command line argument가 우선된다."));
+        cliOptions.addOption(new Option("c", false,
+                "설정 파일과 command line argument라 함께 주어질 경우 command line argument가 우선된다."));
         cliOptions.addOption(new Option("h", "help", false, "사용법, 옵션을 보여줍니다."));
 
         HelpFormatter helpFormatter = new HelpFormatter();

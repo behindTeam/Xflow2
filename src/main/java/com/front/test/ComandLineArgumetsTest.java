@@ -3,7 +3,6 @@ package com.front.test;
 import com.front.message.JsonMessage;
 import com.front.message.Message;
 import com.front.message.StringArrayMessage;
-import com.front.node.MessageParsingNode;
 import com.front.node.ProcessCommandLineNode;
 import com.front.wire.BufferedWire;
 import com.front.wire.Wire;

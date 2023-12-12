@@ -2,9 +2,7 @@ package com.front.node;
 
 import java.util.UUID;
 
-import org.apache.logging.log4j.LogManager;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
-import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import com.front.message.MyMqttMessage;
 import com.front.wire.Wire;
@@ -33,11 +31,7 @@ public class MqttInNode extends InputOutputNode {
     @Override
     void process() {
         UUID cunnetId = UUID.randomUUID();
-        try (IMqttClient serverClient = client;
-        // IMqttClient serverClient = new MqttClient("tcp://ems.nhnacademy.com",
-        // cunnetId.toString());
-        ) {
-            // UUID cunnetId = UUID.fromString(serverClient.getClientId());
+        try (IMqttClient serverClient = client;) {
 
             MqttConnectOptions options = new MqttConnectOptions();
             options.setAutomaticReconnect(true);
