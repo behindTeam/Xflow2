@@ -60,18 +60,19 @@ public class MessageParsingNode extends InputOutputNode {
             JSONObject object = (JSONObject) payload.get("object");
 
             if (object != null) {
-                for (Object sensorType : object.entrySet()) {
+                for (Object sensorType : object.keySet()) {
                     if (deviceInfo.get("applicationName").equals(settings.get("applicationName"))) {
                         String sensor = (String) settings.get("sensor");
                         if (settings.get("sensor") != null) {
                             String[] sensors = sensor.split(",");
                             if (sensor.contains(sensorType.toString()))
                                 for (String s : sensors) {
-                                    Map<String, Object> data = new HashMap<>();
-                                    Map<String, Object> outMessage = new HashMap<>();
-                                    data.put("value",object.get(s));
-                                    outMessage.put(deviceInfo.get("devEui") + "-" + s, data);
+                                    Map<String,Object> data = new HashMap<>();
+                                    Map<String,Object> outMessage = new HashMap<>();
+                                    data.put("value", object.get(sensorType));
+                                    outMessage.put(deviceInfo.get("devEui")+"-"+sensorType.toString(), data);
                                     output(new JsonMessage(new JSONObject(outMessage)));
+                                    System.out.println(new JSONObject(outMessage));
                                 }
                         }
                     }
