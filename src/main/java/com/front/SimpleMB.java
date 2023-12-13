@@ -80,7 +80,6 @@ public class SimpleMB {
         b.putInt(quantity);
         frame[3] = b.get(2);
         frame[4] = b.get(3);
-
         return frame;
 
     }

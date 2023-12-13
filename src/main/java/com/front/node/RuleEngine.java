@@ -10,12 +10,7 @@ import com.front.message.MyMqttMessage;
 import com.front.wire.Wire;
 
 public class RuleEngine extends InputOutputNode {
-    Wire outputWire;
-    Wire inputWire;
     IMqttClient client;
-    byte value;
-    byte unitId;
-    int[] holdingregisters = new int[100];
 
     public RuleEngine() {
         this(1, 1);

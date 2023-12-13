@@ -4,7 +4,7 @@
         "in": {
             "unitId": 1,
             "register": "101",
-            "address": 1
+            "address": 101
         },
         "out": {
             "site": "nhnacademy",
@@ -17,7 +17,7 @@
         "in": {
             "unitId": 2,
             "register": "102",
-            "address": 2
+            "address": 102
         },
         "out": {
             "site": "nhnacademy",
@@ -30,7 +30,7 @@
         "in": {
             "unitId": 3,
             "register": "103",
-            "address": 3
+            "address": 103
         },
         "out": {
             "site": "nhnacademy",
@@ -43,7 +43,7 @@
         "in": {
             "unitId": 4,
             "register": "104",
-            "address": 4
+            "address": 104
         },
         "out": {
             "site": "nhnacademy",
@@ -56,7 +56,7 @@
         "in": {
             "unitId": 5,
             "register": "100",
-            "address": 5
+            "address": 105
         },
         "out": {
             "site": "nhnacademy",
@@ -69,7 +69,7 @@
         "in": {
             "unitId": 6,
             "register": "100",
-            "address": 6
+            "address": 106
         },
         "out": {
             "site": "nhnacademy",
@@ -82,7 +82,7 @@
         "in": {
             "unitId": 7,
             "register": "100",
-            "address": 7
+            "address": 107
         },
         "out": {
             "site": "nhnacademy",
@@ -95,7 +95,7 @@
         "in": {
             "unitId": 8,
             "register": "100",
-            "address": 8
+            "address": 108
         },
         "out": {
             "site": "nhnacademy",
@@ -108,7 +108,7 @@
         "in": {
             "unitId": 9,
             "register": "100",
-            "address": 9
+            "address": 109
         },
         "out": {
             "site": "nhnacademy",
@@ -122,7 +122,7 @@
         "in": {
             "unitId": 1,
             "register": "input",
-            "address": 1
+            "address": 201
         },
         "out": {
             "site": "nhnacademy",
@@ -135,7 +135,7 @@
         "in": {
             "unitId": 2,
             "register": "input",
-            "address": 2
+            "address": 202
         },
         "out": {
             "site": "nhnacademy",
@@ -148,7 +148,7 @@
         "in": {
             "unitId": 3,
             "register": "input",
-            "address": 3
+            "address": 203
         },
         "out": {
             "site": "nhnacademy",
@@ -161,7 +161,7 @@
         "in": {
             "unitId": 4,
             "register": "input",
-            "address": 4
+            "address": 204
         },
         "out": {
             "site": "nhnacademy",
@@ -174,7 +174,7 @@
         "in": {
             "unitId": 5,
             "register": "input",
-            "address": 5
+            "address": 205
         },
         "out": {
             "site": "nhnacademy",
@@ -187,7 +187,7 @@
         "in": {
             "unitId": 6,
             "register": "input",
-            "address": 6
+            "address": 206
         },
         "out": {
             "site": "nhnacademy",
@@ -200,7 +200,7 @@
         "in": {
             "unitId": 7,
             "register": "input",
-            "address": 7
+            "address": 207
         },
         "out": {
             "site": "nhnacademy",
@@ -213,7 +213,7 @@
         "in": {
             "unitId": 8,
             "register": "input",
-            "address": 8
+            "address": 208
         },
         "out": {
             "site": "nhnacademy",

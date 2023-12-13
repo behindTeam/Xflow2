@@ -56,8 +56,8 @@ public class ModbusServerNode extends InputOutputNode {
                 int receiveLength = inputStream.read(inputBuffer, 0, inputBuffer.length);
 
                 if (receiveLength > 0) {
-                    // System.out.println(Arrays.toString(Arrays.copyOfRange(inputBuffer, 0,
-                    // receiveLength)));
+                    System.out.println(Arrays.toString(Arrays.copyOfRange(inputBuffer, 0,
+                            receiveLength)));
 
                     if ((receiveLength > 7) && (6 + inputBuffer[5] == receiveLength)) {
                         if (unitId == inputBuffer[6]) {
@@ -111,7 +111,8 @@ public class ModbusServerNode extends InputOutputNode {
                                     // + ", or_mask : " + or_Mask);
                                     // outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
                                     // SimpleMB.makeMaskWriteRegistersResponse(address,
-                                    // Arrays.copyOfRange(holdingregisters, address, and_Mask, or_Mask))));
+                                    // Arrays.copyOfRange(holdingregisters, address, and_Mask,
+                                    // or_Mask))));
 
                                     // }
                                     break;

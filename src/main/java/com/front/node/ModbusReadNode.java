@@ -42,6 +42,7 @@ public class ModbusReadNode extends InputOutputNode {
                 BufferedOutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
                 BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream())) {
             // byte[] request = { 0, 1, 0, 0, 0, 6, 1, 3, 0, 0, 0, 5 };
+
             int unitId = 1;
             int transactionId = 0;
             for (int i = 0; i < 10; i++) {
@@ -54,10 +55,9 @@ public class ModbusReadNode extends InputOutputNode {
                 int receivedLength = inputStream.read(response, 0, response.length);
 
                 output(new ModbusMessage(response[7], response));
-                // System.out.println(Arrays.toString(Arrays.copyOfRange(response, 0,
-                // receivedLength)));
+                System.out.println(Arrays.toString(Arrays.copyOfRange(response, 0,
+                        receivedLength)));
             }
-
         } catch (UnknownHostException e) {
             System.err.println("Unknown host!!");
         } catch (IOException e) {
