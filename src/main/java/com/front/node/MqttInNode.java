@@ -36,8 +36,7 @@ public class MqttInNode extends InputOutputNode {
     @Override
     void process() {
         UUID cunnetId = UUID.randomUUID();
-        try (IMqttClient serverClient = client;
-        ) {
+        try (IMqttClient serverClient = client;) {
             MqttConnectOptions options = new MqttConnectOptions();
             options.setAutomaticReconnect(true);
             options.setCleanSession(true);
@@ -55,7 +54,7 @@ public class MqttInNode extends InputOutputNode {
 
             serverClient.disconnect();
         } catch (Exception e) {
-            System.err.println("");
+            e.printStackTrace();
         }
     }
 
