@@ -44,7 +44,7 @@ public class MqttInNode extends InputOutputNode {
 
             serverClient.connect(options);
 
-            serverClient.subscribe("application/+/device/+/+/up", (topic, msg) -> {
+            serverClient.subscribe(topicFilter, (topic, msg) -> {
                 MyMqttMessage mqttmessage = new MyMqttMessage(cunnetId, topic, msg.getPayload());
                 output(mqttmessage);
             });

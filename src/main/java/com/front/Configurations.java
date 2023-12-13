@@ -95,7 +95,8 @@ public class Configurations {
             } else if (nodeType.equals("messageParsing")) {
                 nodeName = "com.front.node.MessageParsingNode";
             } else if (nodeType.equals("mqtt-broker")) {
-                createClient((String) jsonObject.get("broker"), (String) jsonObject.get("id"));
+                createClient((String) jsonObject.get("broker"), (String) jsonObject.get("port"),
+                        (String) jsonObject.get("id"));
             }
             if (Objects.isNull(nodeName)) {
                 return;
@@ -117,12 +118,18 @@ public class Configurations {
             nodeMap.put((jsonObject.get("id")).toString(), node);
 
             // 노드 타입에 따른 설정 분배
+
             switch (nodeName) {
                 case "com.front.node.MessageParsingNode":
-                    Method configureSettingsMethod = clazz.getMethod("configureSettings", JSONObject.class);
+                    Method configureSettingsMethod = clazz.getMethod("configureSettings",
+                            JSONObject.class);
                     JSONObject settings = (JSONObject) ((JSONArray) (jsonArray.get(1))).get(0);
                     settings.putAll(processCommandLine(configurationArgs));
                     configureSettingsMethod.invoke(node, settings);
+                    break;
+                case "com.front.node.MqttInNode":
+                    Method setTopicMethod = clazz.getMethod("setTopic", String.class);
+                    setTopicMethod.invoke(node, jsonObject.get("topic"));
                     break;
                 default:
                     break;
@@ -164,11 +171,11 @@ public class Configurations {
 
     // 클라이언트를 생성해주는 메서드
     // Todo: port번호도 가져와야 함
-    private static void createClient(String uri, String id) throws MqttException {
+    private static void createClient(String uri, String port, String id) throws MqttException {
         if (uri.equals("mosquitto")) {
             uri = "localhost";
         }
-        IMqttClient serverClient = new MqttClient("tcp://" + uri, id);
+        IMqttClient serverClient = new MqttClient("tcp://" + uri + ":" + port, id);
         ClientList.getClientList().addClient(id, serverClient);
     }
 
