@@ -15,7 +15,7 @@ public class RuleEngineNode extends InputOutputNode {
     Message message;
 
     public RuleEngineNode() {
-        this(2, 2);
+        this(1, 1);
     }
 
     public RuleEngineNode(int inCount, int outCount) {
@@ -27,21 +27,13 @@ public class RuleEngineNode extends InputOutputNode {
         //
     }
 
-    // 여기서 해야할것은 jsonObject를 가져와서 mqtt로 오면 address파일 채워주고 나머지 반대로 하면 된다.
+    // 여기서 해야할것은 jsonObject를 가져와서 mqtt로 오면 address파일 채워주고 // 나머지 반대로 하면 된다.
     // 앞에 있는 인풋와이어에있는 모든 것을 체크해서 해보자.
     // 메세지 프로세스를 만들었따
 
-
     @Override
     void process() {
-        if ((getInputWire(0) != null) && (getInputWire(0).hasMessage())) {
-            Message jsonMessage = getInputWire(0).get();
-            // if( jsonMessage )
-            // if (myMqttMessage instanceof MyMqttMessage
-            //         && Objects.nonNull(((MyMqttMessage) myMqttMessage).getPayload())) {
-                        
-            // }
-        }
+        // mqtt에서 주는 값 받기
     }
 
     @Override
@@ -56,4 +48,5 @@ public class RuleEngineNode extends InputOutputNode {
         postprocess();
     }
 
+    public void mqttIn
 }
