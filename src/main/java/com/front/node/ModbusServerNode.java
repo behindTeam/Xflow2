@@ -56,7 +56,8 @@ public class ModbusServerNode extends InputOutputNode {
                 int receiveLength = inputStream.read(inputBuffer, 0, inputBuffer.length);
 
                 if (receiveLength > 0) {
-                    System.out.println(Arrays.toString(Arrays.copyOfRange(inputBuffer, 0, receiveLength)));
+                    // System.out.println(Arrays.toString(Arrays.copyOfRange(inputBuffer, 0,
+                    // receiveLength)));
 
                     if ((receiveLength > 7) && (6 + inputBuffer[5] == receiveLength)) {
                         if (unitId == inputBuffer[6]) {
@@ -69,7 +70,7 @@ public class ModbusServerNode extends InputOutputNode {
                                     int quantity = (inputBuffer[10] << 8) | inputBuffer[11];
 
                                     if (address + quantity < holdingregisters.length) {
-                                        System.out.println("address : " + address + ", quantitiy : " + quantity);
+                                        // System.out.println("address : " + address + ", quantitiy : " + quantity);
 
                                         outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
                                                 SimpleMB.makeReadHoldingRegisterResponse(address,
@@ -81,7 +82,7 @@ public class ModbusServerNode extends InputOutputNode {
                                     address = (inputBuffer[8] << 8) | inputBuffer[9];
                                     quantity = (inputBuffer[10] << 8) | inputBuffer[11];
                                     if (address + quantity < holdingregisters.length) {
-                                        System.out.println("address : " + address + ", quantitiy : " + quantity);
+                                        // System.out.println("address : " + address + ", quantitiy : " + quantity);
 
                                         outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
                                                 SimpleMB.makeReadInputRegistersResponse(address,
