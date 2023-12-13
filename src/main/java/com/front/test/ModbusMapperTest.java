@@ -11,11 +11,7 @@ public class ModbusMapperTest {
         Wire wire1 = new BufferedWire();
 
         ModbusServerNode server = new ModbusServerNode();
-
-
         ModbusReadNode reader = new ModbusReadNode();
-
-
         ModBusMapperNode mapper = new ModBusMapperNode();
 
         reader.connectOutputWire(0, wire1);
