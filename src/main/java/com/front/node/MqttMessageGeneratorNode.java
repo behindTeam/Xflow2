@@ -9,11 +9,11 @@ import com.front.message.MyMqttMessage;
 
 public class MqttMessageGeneratorNode extends InputOutputNode {
 
-    MqttMessageGeneratorNode() {
+    public MqttMessageGeneratorNode() {
         this(1, 1);
     }
 
-    MqttMessageGeneratorNode(int inCount, int outCount) {
+    public MqttMessageGeneratorNode(int inCount, int outCount) {
         super(inCount, outCount);
     }
 
@@ -55,8 +55,7 @@ public class MqttMessageGeneratorNode extends InputOutputNode {
         mqttPayload.put("time", new Date().getTime());
         mqttPayload.put("value", data.get("value"));
 
-        MyMqttMessage mqttMessage =
-                new MyMqttMessage(id, topic, mqttPayload.toJSONString().getBytes());
+        MyMqttMessage mqttMessage = new MyMqttMessage(id, topic, mqttPayload.toJSONString().getBytes());
         output(mqttMessage);
     }
 
