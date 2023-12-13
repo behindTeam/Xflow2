@@ -1,7 +1,9 @@
 package com.front.node;
 
+import java.util.Objects;
+import org.json.simple.JSONObject;
+import com.front.message.JsonMessage;
 import com.front.message.Message;
-import com.front.message.MyMqttMessage;
 
 public class RuleEngineNode extends InputOutputNode{
 
@@ -21,8 +23,11 @@ public class RuleEngineNode extends InputOutputNode{
     @Override
     void process() {
         if ((getInputWire(0) != null) && (getInputWire(0).hasMessage())) {
-            Message mytMessage = getInputWire(0).get();
-            msgParser(mytMessage);
+            Message myMessage = getInputWire(0).get();
+            if (myMessage instanceof JsonMessage &&  (Objects.nonNull(((JsonMessage) myMessage).getPayload()))) {
+                    msgParser((JsonMessage) myMessage);
+                
+            }
         }
     }
 
@@ -31,9 +36,8 @@ public class RuleEngineNode extends InputOutputNode{
         //
     }
 
-    private void msgParser(Message mytMessage) {
-        if (mytMessage instanceof MyMqttMessage) {
-             
-        }
+    private void msgParser(JsonMessage myMessage) {
+        JSONObject payload = myMessage.getPayload();
     }
+        
 }
