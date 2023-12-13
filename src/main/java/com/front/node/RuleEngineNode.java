@@ -1,7 +1,11 @@
 package com.front.node;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Objects;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import com.front.message.JsonMessage;
 import com.front.message.Message;
 
@@ -37,8 +41,22 @@ public class RuleEngineNode extends InputOutputNode {
         //
     }
 
-    private void msgParser(JsonMessage myMessage) {
+    void msgParser(JsonMessage myMessage) {
         JSONObject payload = myMessage.getPayload();
-    }
+        JSONParser parser = new JSONParser();
 
+        try {
+            JSONObject database = (JSONObject) parser
+                    .parse(new FileReader("src/main/java/com/front/database.json"));
+
+            for (Object fromdatabaseskey : database.keySet()) {
+
+                // System.out.println("Key : " + key.toString());
+            }
+
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
