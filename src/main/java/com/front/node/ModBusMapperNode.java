@@ -40,7 +40,9 @@ public class ModBusMapperNode extends InputOutputNode {
         if ((getInputWire(0) != null) && (getInputWire(0).hasMessage())) {
             Message modbusMessage = getInputWire(0).get();
             if (modbusMessage instanceof ModbusMessage) {
-                modbusMapper((ModbusMessage) modbusMessage);
+                if (Objects.nonNull(((ModbusMessage) modbusMessage).getAdu())) {
+                    modbusMapper((ModbusMessage) modbusMessage);
+                }
             }
         }
     }
@@ -50,12 +52,13 @@ public class ModBusMapperNode extends InputOutputNode {
         //
     }
 
-    @Override
-    public void run() {
-        preprocess();
-        process();
-        postprocess();
-    }
+    // @Override
+    // public void run() {
+    // preprocess();
+    // process();
+    // postprocess();
+    // }
+
 
     // 우리가 가져와야할 값 unitId , data //
 

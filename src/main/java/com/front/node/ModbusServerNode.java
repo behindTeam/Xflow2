@@ -80,6 +80,9 @@ public class ModbusServerNode extends InputOutputNode {
 
                                 case 4:
 
+                                case 6:
+
+
                                 default:
                             }
                         }

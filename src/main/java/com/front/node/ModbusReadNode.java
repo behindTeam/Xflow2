@@ -58,6 +58,8 @@ public class ModbusReadNode extends InputOutputNode {
                 output(new ModbusMessage(response[7], response));
                 // System.out
                 // .println(Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)));
+
+
             }
 
         } catch (UnknownHostException e) {

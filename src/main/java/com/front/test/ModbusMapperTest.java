@@ -9,18 +9,20 @@ import com.front.wire.Wire;
 public class ModbusMapperTest {
     public static void main(String[] args) {
         Wire wire1 = new BufferedWire();
-        Wire wire2 = new BufferedWire();
 
         ModbusServerNode server = new ModbusServerNode();
-        server.start();
+
 
         ModbusReadNode reader = new ModbusReadNode();
-        reader.start();
+
 
         ModBusMapperNode mapper = new ModBusMapperNode();
 
-        reader.connectInputWire(0, wire1);
-        mapper.connectOutputWire(0, wire2);
+        reader.connectOutputWire(0, wire1);
+        mapper.connectInputWire(0, wire1);
+
+        server.start();
+        reader.start();
 
         mapper.start();
 
