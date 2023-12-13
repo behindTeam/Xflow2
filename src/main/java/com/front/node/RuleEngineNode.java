@@ -13,11 +13,11 @@ import com.front.message.Message;
 
 public class RuleEngineNode extends InputOutputNode {
 
-    RuleEngineNode() {
+    public RuleEngineNode() {
         this(1, 1);
     }
 
-    RuleEngineNode(int inCount, int outCount) {
+    public RuleEngineNode(int inCount, int outCount) {
         super(inCount, outCount);
     }
 
