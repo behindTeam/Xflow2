@@ -101,7 +101,7 @@ public class Configurations {
                 return;
             }
             Class<?> clazz = Class.forName(nodeName);
-            Node node = (Node) clazz.getDeclaredConstructor().newInstance(); // 노드 생성
+            Node node = (Node) clazz.getDeclaredConstructor(int.class, int.class).newInstance(3, 3); // 노드 생성
 
             Method setNameMethod = clazz.getMethod("setName", String.class);
 
@@ -142,7 +142,6 @@ public class Configurations {
         String nodeName = "com.front.node.InputOutputNode";
 
         try {
-
             Class<?> clazz = Class.forName(wireName);
             Object wire = clazz.getDeclaredConstructor().newInstance();
 
@@ -152,12 +151,13 @@ public class Configurations {
             Method connectInputWireMethod = nodeClazz.getMethod("connectInputWire", int.class, Wire.class); // 메소드
                                                                                                             // 호출
 
-            connectOutputWireMethod.invoke(before, 0, wire);
-            connectInputWireMethod.invoke(after, 0, wire);
+            connectOutputWireMethod.invoke(before, ((InputOutputNode) before).getOutputWireCount(), wire);
+            connectInputWireMethod.invoke(after, ((InputOutputNode) after).getInputWireCount(), wire);
 
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
                 | IllegalAccessException | InvocationTargetException e) {
             System.err.println(e);
+            e.printStackTrace();
         }
 
     }
