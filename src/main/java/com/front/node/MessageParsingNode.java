@@ -41,7 +41,7 @@ public class MessageParsingNode extends InputOutputNode {
     void process() {
         if ((getInputWire(0) != null) && (getInputWire(0).hasMessage())) {
             Message myMqttMessage = getInputWire(0).get();
-            if (myMqttMessage instanceof MyMqttMessage) {
+            if (myMqttMessage instanceof MyMqttMessage) { 
                 if (Objects.nonNull(((MyMqttMessage) myMqttMessage).getPayload())) {
                     messageParsing((MyMqttMessage) myMqttMessage);
                 }
