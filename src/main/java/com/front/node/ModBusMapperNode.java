@@ -1,6 +1,7 @@
 package com.front.node;
 
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.json.simple.JSONObject;
@@ -59,25 +60,25 @@ public class ModBusMapperNode extends InputOutputNode {
     // postprocess();
     // }
 
-
-    // 우리가 가져와야할 값 unitId , data //
-
     public void modbusMapper(ModbusMessage modbusMessage) {
 
         try {
             unitId = modbusMessage.getAdu()[7];
             value = modbusMessage.getAdu()[11];
 
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("unitId", unitId);
-            jsonObject.put("value", value);
+            Map<String, Object> data = new HashMap<>();
+            Map<String, Object> sendMessage = new HashMap<>();
 
-            System.out.println(jsonObject.toString());
+            data.put("unitId", unitId);
+            data.put("value", value);
+            sendMessage.put("payload", data);
+
+            JSONObject jsonMessage = new JSONObject(sendMessage);
+
+            output(new JsonMessage(jsonMessage));
+            // System.out.println(jsonMessage.toString());
         } catch (Exception e) {
-            // TODO: handle exception
         }
 
-
     }
-
 }

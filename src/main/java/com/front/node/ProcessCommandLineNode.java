@@ -76,8 +76,8 @@ public class ProcessCommandLineNode extends InputOutputNode {
         cliOptions.addOption(new Option("applicationName", "an", true,
                 "프로그램 옵션으로 Application Name을 줄 수 있으며, application name이 주어질 경우 해당 메시지만 수신하도록 한다."));
         cliOptions.addOption(new Option("s", true, "허용 가능한 센서 종류를 지정할 수 있다."));
-        cliOptions.addOption(
-                new Option("c", false, "설정 파일과 command line argument라 함께 주어질 경우 command line argument가 우선된다."));
+        cliOptions.addOption(new Option("c", false,
+                "설정 파일과 command line argument라 함께 주어질 경우 command line argument가 우선된다."));
         cliOptions.addOption(new Option("h", "help", false, "사용법, 옵션을 보여줍니다."));
 
         HelpFormatter helpFormatter = new HelpFormatter();

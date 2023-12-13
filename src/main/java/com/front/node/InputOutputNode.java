@@ -15,7 +15,7 @@ public abstract class InputOutputNode extends ActiveNode {
         outputWires = new Wire[outCount];
     }
 
-    InputOutputNode(int inCount, int outCount) {
+    protected InputOutputNode(int inCount, int outCount) {
         super();
 
         inputWires = new Wire[inCount];
