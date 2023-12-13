@@ -1,5 +1,6 @@
 package com.front.node;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 import org.json.simple.JSONObject;
@@ -44,20 +45,39 @@ public class MqttMessageGeneratorNode extends InputOutputNode {
         String key = (String) payload.keySet().toArray()[0];
         JSONObject data = (JSONObject) payload.get(key);
 
-        String topic = "data/" + data.get("site") + "/" + data.get("branch") + "/"
-                + data.get("place") + "/" + key;
+        String[] keyParts = key.split("-");
+        String sensorType = keyParts[1];
+        JSONObject out = (JSONObject) data.get("out");
+
+        String topic = "data/" + "s/" + out.get("site") + "/b/" + out.get("branch") + "/p/"
+                + out.get("place") + "/" + sensorType;
 
         JSONObject mqttPayload = new JSONObject();
         mqttPayload.put("time", new Date().getTime());
         mqttPayload.put("value", data.get("value"));
 
-        MyMqttMessage mqttMessage = new MyMqttMessage(id, null, null);
-
-        mqttMessage.setTopic(topic);
-        mqttMessage.setPayload(mqttPayload.toJSONString().getBytes());
-
-        System.out.println(mqttMessage.toString());
+        MyMqttMessage mqttMessage =
+                new MyMqttMessage(id, topic, mqttPayload.toJSONString().getBytes());
         output(mqttMessage);
+    }
+
+    public static void main(String[] args) {
+        MqttMessageGeneratorNode node = new MqttMessageGeneratorNode();
+        JSONObject payload = new JSONObject();
+        JSONObject inOut = new JSONObject();
+        JSONObject in = new JSONObject();
+        JSONObject out = new JSONObject();
+        in.put("unitId", 1);
+        in.put("register", 100);
+        in.put("address", 1);
+        out.put("site", "nhnacademy");
+        out.put("branch", "gyeongnam");
+        out.put("place", "class_a");
+        inOut.put("in", in);
+        inOut.put("out", out);
+        inOut.put("value", 26);
+        payload.put("24e124128c067999-temperature", inOut);
+        node.toMqttMsg(new JsonMessage(payload));
     }
 
 }
