@@ -15,8 +15,9 @@ import com.front.wire.Wire;
 
 public class ModbusReadNode extends InputOutputNode {
     Wire outputWire;
-    IMqttClient client;
+    String URI;
     byte unitId = 1;
+    int port;
     int[] holdingregisters = new int[100];
 
     public ModbusReadNode() {
@@ -27,8 +28,12 @@ public class ModbusReadNode extends InputOutputNode {
         super(inCount, outCount);
     }
 
-    public void setClient(IMqttClient client) {
-        this.client = client;
+    public void setURI(String URI) {
+        this.URI = URI;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 
     @Override
@@ -38,28 +43,35 @@ public class ModbusReadNode extends InputOutputNode {
 
     @Override
     void process() {
-        try (Socket socket = new Socket("172.19.0.1", 11502);
-                BufferedOutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
-                BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream())) {
-            // byte[] request = { 0, 1, 0, 0, 0, 6, 1, 3, 0, 0, 0, 5 };
+        // try (Socket socket = new Socket("172.19.0.1", 11502);
+        // BufferedOutputStream outputStream = new
+        // BufferedOutputStream(socket.getOutputStream());
+        // BufferedInputStream inputStream = new
+        // BufferedInputStream(socket.getInputStream())) {
+        // // byte[] request = { 0, 1, 0, 0, 0, 6, 1, 3, 0, 0, 0, 5 };
 
-            int unitId = 1;
-            int transactionId = 0;
-            for (int i = 0; i < 10; i++) {
-                byte[] request = SimpleMB.addMBAP(++transactionId, unitId,
-                        SimpleMB.makeReadHoldingRegistersRequest(0, 5));
-                outputStream.write(request);
-                outputStream.flush();
+        // // int unitId = 1;
+        // // int transactionId = 0;
+        // // for (int i = 0; i < 10; i++) {
+        // // byte[] request = SimpleMB.addMBAP(++transactionId, unitId,
+        // // SimpleMB.makeReadHoldingRegistersRequest(0, 5));
+        // // outputStream.write(request);
+        // // outputStream.flush();
 
-                byte[] response = new byte[512];
-                int receivedLength = inputStream.read(response, 0, response.length);
+        // // byte[] response = new byte[512];
+        // // int receivedLength = inputStream.read(response, 0, response.length);
 
-                output(new ModbusMessage(response[7], response));
-                System.out.println(Arrays.toString(Arrays.copyOfRange(response, 0,
-                        receivedLength)));
-            }
-        } catch (UnknownHostException e) {
-            System.err.println("Unknown host!!");
+        // // output(new ModbusMessage(response[7], response));
+        // // System.out.println(Arrays.toString(Arrays.copyOfRange(response, 0,
+        // // receivedLength)));
+        // // }
+        // } catch (UnknownHostException e) {
+        // System.err.println("Unknown host!!");
+        // } catch (IOException e) {
+        // e.printStackTrace();
+        // }
+        // Test할땐 URI : "127.0.0.1" , port = 11502
+        try (Socket socket = new Socket("127.0.0.1", 11502)) {
         } catch (IOException e) {
             e.printStackTrace();
         }
