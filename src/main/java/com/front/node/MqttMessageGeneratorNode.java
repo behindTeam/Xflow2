@@ -57,6 +57,7 @@ public class MqttMessageGeneratorNode extends InputOutputNode {
         MyMqttMessage mqttMessage =
                 new MyMqttMessage(id, topic, mqttPayload.toJSONString().getBytes());
 
+        System.out.println(mqttPayload.toJSONString());
         output(mqttMessage);
     }
 

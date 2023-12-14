@@ -56,14 +56,9 @@ public class ModbusReadNode extends InputOutputNode {
                         new BufferedInputStream(socket.getInputStream())) {
             // byte[] request = { 0, 1, 0, 0, 0, 6, 1, 3, 0, 0, 0, 5 };
             FileReader reader = new FileReader("src/main/java/com/front/resources/pdu.json");
-            JSONObject pduObject = (JSONObject) reader;
 
-            byte[] request = SimpleMB.addMBAP(transactionId, unitId,
-                    SimpleMB.makeReadInputRegistersRequest(0, 0));
-            outputStream.write(request);
             outputStream.flush();
 
-            System.out.println("request byte[]: " + Arrays.toString(request));
             byte[] response = new byte[512];
             int receivedLength = inputStream.read(response, 0, response.length);
 
