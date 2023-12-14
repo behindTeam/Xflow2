@@ -46,14 +46,12 @@ public class ModbusMessageGenertorNode extends InputOutputNode {
         JSONObject data = (JSONObject) payload.get(key);
 
         JSONObject in = (JSONObject) data.get("in");
-        JSONObject out = (JSONObject) data.get("out");
         byte unitId = ((Number) in.get("unitId")).byteValue();
 
         JSONObject modbusPayload = new JSONObject();
-        modbusPayload.put("value", out.get("value"));
         modbusPayload.put("unitId", in.get("unitId"));
-        modbusPayload.put("register", in.get("register"));
         modbusPayload.put("address", in.get("address"));
+        modbusPayload.put("value", data.get("value"));
 
         ModbusMessage modbusMessage =
                 new ModbusMessage(unitId, modbusPayload.toJSONString().getBytes());
@@ -62,7 +60,7 @@ public class ModbusMessageGenertorNode extends InputOutputNode {
     }
 
     public static void main(String[] args) {
-        MqttMessageGeneratorNode node = new MqttMessageGeneratorNode();
+        ModbusMessageGenertorNode node = new ModbusMessageGenertorNode();
         JSONObject payload = new JSONObject();
         JSONObject inOut = new JSONObject();
         JSONObject in = new JSONObject();
@@ -77,7 +75,7 @@ public class ModbusMessageGenertorNode extends InputOutputNode {
         inOut.put("out", out);
         inOut.put("value", 26);
         payload.put("24e124128c067999-temperature", inOut);
-        node.toMqttMsg(new JsonMessage(payload));
+        node.toModbusMsg(new JsonMessage(payload));
     }
 
 }
