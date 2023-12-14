@@ -43,38 +43,44 @@ public class ModbusReadNode extends InputOutputNode {
 
     @Override
     void process() {
-        // try (Socket socket = new Socket("172.19.0.1", 11502);
-        // BufferedOutputStream outputStream = new
-        // BufferedOutputStream(socket.getOutputStream());
-        // BufferedInputStream inputStream = new
-        // BufferedInputStream(socket.getInputStream())) {
-        // // byte[] request = { 0, 1, 0, 0, 0, 6, 1, 3, 0, 0, 0, 5 };
-
-        // // int unitId = 1;
-        // // int transactionId = 0;
-        // // for (int i = 0; i < 10; i++) {
-        // // byte[] request = SimpleMB.addMBAP(++transactionId, unitId,
-        // // SimpleMB.makeReadHoldingRegistersRequest(0, 5));
-        // // outputStream.write(request);
-        // // outputStream.flush();
-
-        // // byte[] response = new byte[512];
-        // // int receivedLength = inputStream.read(response, 0, response.length);
-
-        // // output(new ModbusMessage(response[7], response));
-        // // System.out.println(Arrays.toString(Arrays.copyOfRange(response, 0,
-        // // receivedLength)));
-        // // }
-        // } catch (UnknownHostException e) {
-        // System.err.println("Unknown host!!");
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
-        // Test할땐 URI : "127.0.0.1" , port = 11502
-        try (Socket socket = new Socket("127.0.0.1", 11502);
+        try (Socket socket = new Socket("127.0.0.1", 502);
                 BufferedOutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
                 BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream())) {
+            // byte[] request = { 0, 1, 0, 0, 0, 6, 1, 3, 0, 0, 0, 5 };
 
+            int unitId = 1;
+            int transactionId = 0;
+            byte[] request = SimpleMB.addMBAP(transactionId, unitId,
+                    SimpleMB.makeReadHoldingRegistersRequest(201, 1));
+            outputStream.write(request);
+            outputStream.flush();
+
+            System.out.println("request byte[]: " + Arrays.toString(request));
+            byte[] response = new byte[512];
+            int receivedLength = inputStream.read(response, 0, response.length);
+
+            output(new ModbusMessage(response[7], response));
+            System.out.println("response byte[]: " + Arrays.toString(Arrays.copyOfRange(response, 0,
+                    receivedLength)) + "\n");
+
+            // let frame = [];
+            // let length = 0;
+
+            // frame[length++] = ((msg.transactionId >> 8) & 0xFF);
+            // frame[length++] = (msg.transactionId & 0xFF);
+            // frame[length++] =0;
+            // frame[length++] =0;
+            // frame[length++] =0;
+            // frame[length++] =6;
+            // frame[length++] =msg.unitId;
+            // frame[length++] =msg.functionCode;
+            // frame[length++] =((msg.address >> 8) & 0xFF);
+            // frame[length++] =(msg.address & 0xFF);
+            // frame[length++] =((msg.payload >>8) & 0xFF);
+            // frame[length++] =(msg.payload & 0xFF);
+
+        } catch (UnknownHostException e) {
+            System.err.println("Unknown host!!");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -5,8 +5,8 @@ import com.front.node.ModbusServerNode;
 
 public class ModbusTest {
     public static void main(String[] args) {
-        ModbusServerNode server = new ModbusServerNode();
-        server.start();
+        // ModbusServerNode server = new ModbusServerNode();
+        // server.start();
 
         ModbusReadNode reader = new ModbusReadNode();
         reader.start();

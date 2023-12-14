@@ -64,6 +64,7 @@ public class SimpleMB {
         return frame;
     }
 
+    // response반응
     public static byte[] makeReadHoldingRegistersRequest(int address, int quantity) {
         byte[] frame = new byte[5];
         ByteBuffer b = ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN);
@@ -83,6 +84,28 @@ public class SimpleMB {
         return frame;
 
     }
+
+    // 이걸 request로 해서 temperature, humidity, co2를 받아올려고 한다
+    // public static byte[] makeReadHoldingRegistersRequest(int address, int
+    // quantity) {
+    // byte[] frame = new byte[5];
+    // ByteBuffer b = ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN);
+
+    // // PDU의 function code
+    // frame[0] = 0x03;
+
+    // // PDU의 data
+    // b.putInt(address);
+    // frame[1] = b.get(2);
+    // frame[2] = b.get(3);
+
+    // b.clear();
+    // b.putInt(quantity);
+    // frame[3] = b.get(2);
+    // frame[4] = b.get(3);
+    // return frame;
+
+    // }
 
     public static byte[] makeReadInputRegistersRequest(int address, int quantity) {
         byte[] frame = new byte[5];
