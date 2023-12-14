@@ -51,25 +51,19 @@ public class ModbusServerNode extends InputOutputNode {
                 int receiveLength = inputStream.read(inputBuffer, 0, inputBuffer.length);
 
                 if (receiveLength > 0) {
-                    // System.out.println(
-                    // Arrays.toString(Arrays.copyOfRange(inputBuffer, 0, receiveLength)));
+                    System.out.println(
+                            Arrays.toString(Arrays.copyOfRange(inputBuffer, 0, receiveLength)));
 
                     if ((receiveLength > 7) && (6 + inputBuffer[5] == receiveLength)) {
                         if (unitId == inputBuffer[6]) {
-                            int transactionId = inputBuffer[0] << 8 | inputBuffer[1];
+                            int transactionId = (inputBuffer[0] << 8) | inputBuffer[1];
                             int functionCode = inputBuffer[7];
+                            int address = (inputBuffer[8] << 8) | inputBuffer[9];
+                            int quantity = (inputBuffer[10] << 8) | inputBuffer[11];
 
                             switch (functionCode) {
                                 case 3:
-                                    int address = (inputBuffer[8] << 8) | inputBuffer[9];
-                                    int quantity = (inputBuffer[10] << 8) | inputBuffer[11];
-
                                     if (address + quantity < holdingregisters.length) {
-                                        // System.out.println("address : " + address + ", quantitiy:
-                                        // "
-                                        // + quantity);
-
-
                                         outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
                                                 SimpleMB.makeReadHoldingRegisterResponse(address,
                                                         Arrays.copyOfRange(holdingregisters,
@@ -79,11 +73,29 @@ public class ModbusServerNode extends InputOutputNode {
                                     break;
 
                                 case 4:
-
+                                    if (address + quantity < holdingregisters.length) {
+                                        outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
+                                                SimpleMB.ReadInputRegisters(address, quantity)));
+                                        outputStream.flush();
+                                    }
+                                    break;
                                 case 6:
+                                    if (address + quantity < holdingregisters.length) {
+                                        outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
+                                                SimpleMB.makeWriteSingleRegistersRequest(address,
+                                                        quantity)));
+                                        outputStream.flush();
+                                    }
+                                    break;
+                                case 16:
+                                    if (address + quantity < holdingregisters.length) {
 
-
-                                default:
+                                        outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
+                                                SimpleMB.makeWriteSingleRegistersRequest(address,
+                                                        quantity)));
+                                        outputStream.flush();
+                                    }
+                                    break;
                             }
                         }
 

@@ -2,12 +2,16 @@ package com.front.node;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
 import org.eclipse.paho.client.mqttv3.IMqttClient;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.front.SimpleMB;
 import com.front.message.ModbusMessage;
@@ -15,9 +19,11 @@ import com.front.wire.Wire;
 
 public class ModbusReadNode extends InputOutputNode {
     Wire outputWire;
-    IMqttClient client;
+    String URI;
     byte unitId = 1;
+    int port;
     int[] holdingregisters = new int[100];
+    JSONParser parser;
 
     public ModbusReadNode() {
         this(1, 1);
@@ -27,8 +33,12 @@ public class ModbusReadNode extends InputOutputNode {
         super(inCount, outCount);
     }
 
-    public void setClient(IMqttClient client) {
-        this.client = client;
+    public void setURI(String URI) {
+        this.URI = URI;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 
     @Override
@@ -36,31 +46,30 @@ public class ModbusReadNode extends InputOutputNode {
         //
     }
 
+    // set 인터벌해서 스레드 슬립 -> 안에 셋인터벌넣고 인터벌숫자는 임의로 변경할수있게끔 -> 60000
     @Override
-    void process() { // 그 뒤에
-        try (Socket socket = new Socket("172.19.0.1", 11502);
+    void process() {
+        try (Socket socket = new Socket("127.0.0.1", 502);
                 BufferedOutputStream outputStream =
                         new BufferedOutputStream(socket.getOutputStream());
                 BufferedInputStream inputStream =
                         new BufferedInputStream(socket.getInputStream())) {
             // byte[] request = { 0, 1, 0, 0, 0, 6, 1, 3, 0, 0, 0, 5 };
-            int unitId = 1;
-            int transactionId = 0;
-            for (int i = 0; i < 10; i++) {
-                byte[] request = SimpleMB.addMBAP(++transactionId, unitId,
-                        SimpleMB.makeReadHoldingRegistersRequest(0, 5));
-                outputStream.write(request);
-                outputStream.flush();
+            FileReader reader = new FileReader("src/main/java/com/front/resources/pdu.json");
+            JSONObject pduObject = (JSONObject) reader;
 
-                byte[] response = new byte[512];
-                int receivedLength = inputStream.read(response, 0, response.length);
+            byte[] request = SimpleMB.addMBAP(transactionId, unitId,
+                    SimpleMB.makeReadInputRegistersRequest(0, 0));
+            outputStream.write(request);
+            outputStream.flush();
 
-                output(new ModbusMessage(response[7], response));
-                // System.out
-                // .println(Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)));
+            System.out.println("request byte[]: " + Arrays.toString(request));
+            byte[] response = new byte[512];
+            int receivedLength = inputStream.read(response, 0, response.length);
 
-
-            }
+            output(new ModbusMessage(response[7], response));
+            System.out.println("response byte[]: "
+                    + Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)) + "\n");
 
         } catch (UnknownHostException e) {
             System.err.println("Unknown host!!");

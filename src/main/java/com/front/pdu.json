@@ -1,0 +1,104 @@
+{
+    "unitId": {
+        "1": {
+            "address": 1,
+            "value": 222,
+            "type": "temperature"
+        },
+        "2": {
+            "address": 2,
+            "value": 231,
+            "type": "temperature"
+        },
+        "3": {
+            "address": 3,
+            "value": 254,
+            "type": "temperature"
+        },
+        "4": {
+            "address": 4,
+            "value": 215,
+            "type": "temperature"
+        },
+        "5": {
+            "address": 5,
+            "value": 242,
+            "type": "temperature"
+        },
+        "6": {
+            "address": 6,
+            "value": 249,
+            "type": "temperature"
+        },
+        "7": {
+            "address": 7,
+            "value": 220,
+            "type": "temperature"
+        },
+        "8": {
+            "address": 8,
+            "value": 237,
+            "type": "temperature"
+        },
+        "9": {
+            "address": 9,
+            "value": 259,
+            "type": "temperature"
+        },
+        "11": {
+            "address": 11,
+            "value": 55.5,
+            "type": "humidity"
+        },
+        "12": {
+            "address": 12,
+            "value": 50.5,
+            "type": "humidity"
+        },
+        "13": {
+            "address": 13,
+            "value": 53.5,
+            "type": "humidity"
+        },
+        "14": {
+            "address": 14,
+            "value": 55.5,
+            "type": "humidity"
+        },
+        "15": {
+            "address": 15,
+            "value": 510,
+            "type": "humidity"
+        },
+        "16": {
+            "address": 16,
+            "value": 545,
+            "type": "humidity"
+        },
+        "17": {
+            "address": 17,
+            "value": 530,
+            "type": "humidity"
+        },
+        "18": {
+            "address": 18,
+            "value": 45.5,
+            "type": "humidity"
+        },
+        "21": {
+            "address": 21,
+            "value": 8000,
+            "type": "co2"
+        },
+        "22": {
+            "address": 22,
+            "value": 9000,
+            "type": "co2"
+        },
+        "23": {
+            "address": 23,
+            "value": 1000,
+            "type": "co2"
+        }
+    }
+}

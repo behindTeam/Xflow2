@@ -3,6 +3,11 @@ package com.front;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+// 현재 온도를 읽어오는게 인풋레지스터
+// 설정온도와 홀딩레지스터
+// 현재온도를 가져와야한다 지금
+// 인풋레지스터가 필요하다
+//
 public class SimpleMB {
     public static byte[] makeReadHoldingRegisterResponse(int address, int[] registers) {
         byte[] frame = new byte[1 + 1 + registers.length * 2];
@@ -18,6 +23,21 @@ public class SimpleMB {
 
         return frame;
     }
+
+    public static byte[] ReadInputRegisters(int startingAddress, int quantityOfRegisters) {
+        byte[] frame = new byte[6];
+
+        frame[0] = 0x04;
+
+        frame[1] = (byte) ((startingAddress >> 8) & 0xFF);
+        frame[2] = (byte) (startingAddress & 0xFF);
+
+        frame[3] = (byte) ((quantityOfRegisters >> 8) & 0xFF);
+        frame[4] = (byte) (quantityOfRegisters & 0xFF);
+
+        return frame;
+    }
+
 
     public static byte[] makeReadHoldingRegistersRequest(int address, int quantity) {
         byte[] frame = new byte[5];
