@@ -71,7 +71,10 @@ public class ModbusReadNode extends InputOutputNode {
         // e.printStackTrace();
         // }
         // Test할땐 URI : "127.0.0.1" , port = 11502
-        try (Socket socket = new Socket("127.0.0.1", 11502)) {
+        try (Socket socket = new Socket("127.0.0.1", 11502);
+                BufferedOutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
+                BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream())) {
+
         } catch (IOException e) {
             e.printStackTrace();
         }
