@@ -1,5 +1,4 @@
 {
-    "__주석1__": "100 temperature",
     "24e124128c067999-temperature": {
         "in": {
             "unitId": 1,
@@ -117,7 +116,6 @@
         },
         "value": null
     },
-    "__주석2__": "200 humidity",
     "24e124126d152969-humidity": {
         "in": {
             "unitId": 1,
@@ -222,7 +220,6 @@
         },
         "value": null
     },
-    "__주석3__": "300 CO2",
     "24e124128c067999-co2": {
         "in": {
             "unitId": 1,
