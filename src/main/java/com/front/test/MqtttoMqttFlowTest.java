@@ -53,7 +53,7 @@ public class MqtttoMqttFlowTest {
         }
 
         mqttInNode.setClient(serverClient);
-        // mqttInNode.setTopic("application/#"); 작동안됌 임시적으로 주석처리 해놓음.
+        mqttInNode.setTopic("application/#");
         messageParsingNode.configureSettings(settings);
         mqttOutNode.setClient(hostClient);
 

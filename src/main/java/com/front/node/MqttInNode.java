@@ -10,6 +10,7 @@ import com.front.wire.Wire;
 public class MqttInNode extends InputOutputNode {
     Wire outputWire;
     IMqttClient client;
+    String topicFilter;
 
     public MqttInNode() {
         this(1, 1);
@@ -23,6 +24,10 @@ public class MqttInNode extends InputOutputNode {
         this.client = client;
     }
 
+    public void setTopic(String topicFilter) {
+        this.topicFilter = topicFilter;
+    }
+
     @Override
     void preprocess() {
         outputWire = getOutputWire(0);
@@ -32,14 +37,13 @@ public class MqttInNode extends InputOutputNode {
     void process() {
         UUID cunnetId = UUID.randomUUID();
         try (IMqttClient serverClient = client;) {
-
             MqttConnectOptions options = new MqttConnectOptions();
             options.setAutomaticReconnect(true);
             options.setCleanSession(true);
 
             serverClient.connect(options);
 
-            serverClient.subscribe("application/+/device/+/+/up", (topic, msg) -> {
+            serverClient.subscribe(topicFilter, (topic, msg) -> {
                 MyMqttMessage mqttmessage = new MyMqttMessage(cunnetId, topic, msg.getPayload());
                 output(mqttmessage);
             });
@@ -50,7 +54,7 @@ public class MqttInNode extends InputOutputNode {
 
             serverClient.disconnect();
         } catch (Exception e) {
-            System.err.println("");
+            e.printStackTrace();
         }
     }
 
