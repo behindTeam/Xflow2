@@ -2,7 +2,7 @@
     "24e124128c067999-temperature": {
         "in": {
             "unitId": 1,
-            "register": "100",
+            "register": "input",
             "address": 1
         },
         "out": {
@@ -15,7 +15,7 @@
     "24e124785c389818-temperature": {
         "in": {
             "unitId": 2,
-            "register": "100",
+            "register": "input",
             "address": 2
         },
         "out": {
@@ -28,7 +28,7 @@
     "24e124126d152590-temperature": {
         "in": {
             "unitId": 3,
-            "register": "100",
+            "register": "input",
             "address": 3
         },
         "out": {
@@ -41,7 +41,7 @@
     "24e124128c140101-temperature": {
         "in": {
             "unitId": 4,
-            "register": "100",
+            "register": "input",
             "address": 4
         },
         "out": {
@@ -54,7 +54,7 @@
     "24e124136d151368-temperature": {
         "in": {
             "unitId": 5,
-            "register": "100",
+            "register": "input",
             "address": 5
         },
         "out": {
@@ -67,7 +67,7 @@
     "24e124136d151547-temperature": {
         "in": {
             "unitId": 6,
-            "register": "100",
+            "register": "input",
             "address": 6
         },
         "out": {
@@ -80,7 +80,7 @@
     "24e124785c421885-temperature": {
         "in": {
             "unitId": 7,
-            "register": "100",
+            "register": "input",
             "address": 7
         },
         "out": {
@@ -93,7 +93,7 @@
     "24e124136d150970-temperature": {
         "in": {
             "unitId": 8,
-            "register": "100",
+            "register": "input",
             "address": 8
         },
         "out": {
@@ -106,7 +106,7 @@
     "24e124785c389010-temperature": {
         "in": {
             "unitId": 9,
-            "register": "100",
+            "register": "input",
             "address": 9
         },
         "out": {
@@ -118,9 +118,9 @@
     },
     "24e124126d152969-humidity": {
         "in": {
-            "unitId": 1,
+            "unitId": 11,
             "register": "input",
-            "address": 1
+            "address": 11
         },
         "out": {
             "site": "nhnacademy",
@@ -131,9 +131,9 @@
     },
     "24e124128c067999-humidity": {
         "in": {
-            "unitId": 2,
+            "unitId": 12,
             "register": "input",
-            "address": 2
+            "address": 12
         },
         "out": {
             "site": "nhnacademy",
@@ -144,9 +144,9 @@
     },
     "24e124785c421885-humidity": {
         "in": {
-            "unitId": 3,
+            "unitId": 13,
             "register": "input",
-            "address": 3
+            "address": 13
         },
         "out": {
             "site": "nhnacademy",
@@ -157,9 +157,9 @@
     },
     "24e124128c140101-humidity": {
         "in": {
-            "unitId": 4,
+            "unitId": 14,
             "register": "input",
-            "address": 4
+            "address": 14
         },
         "out": {
             "site": "nhnacademy",
@@ -170,9 +170,9 @@
     },
     "24e124785c389010-humidity": {
         "in": {
-            "unitId": 5,
+            "unitId": 15,
             "register": "input",
-            "address": 5
+            "address": 15
         },
         "out": {
             "site": "nhnacademy",
@@ -183,9 +183,9 @@
     },
     "24e124126d152919-humidity": {
         "in": {
-            "unitId": 6,
+            "unitId": 16,
             "register": "input",
-            "address": 6
+            "address": 16
         },
         "out": {
             "site": "nhnacademy",
@@ -196,9 +196,9 @@
     },
     "24e124136d151547-humidity": {
         "in": {
-            "unitId": 7,
+            "unitId": 17,
             "register": "input",
-            "address": 7
+            "address": 17
         },
         "out": {
             "site": "nhnacademy",
@@ -209,9 +209,9 @@
     },
     "24e124136d151368-humidity": {
         "in": {
-            "unitId": 8,
+            "unitId": 18,
             "register": "input",
-            "address": 8
+            "address": 18
         },
         "out": {
             "site": "nhnacademy",
@@ -222,9 +222,9 @@
     },
     "24e124128c067999-co2": {
         "in": {
-            "unitId": 1,
+            "unitId": 21,
             "register": "input",
-            "address": 1
+            "address": 21
         },
         "out": {
             "site": "nhnacademy",
@@ -235,9 +235,9 @@
     },
     "24e124128c140101-co2": {
         "in": {
-            "unitId": 2,
+            "unitId": 22,
             "register": "input",
-            "address": 2
+            "address": 22
         },
         "out": {
             "site": "nhnacademy",
@@ -248,9 +248,9 @@
     },
     "24e124126d152590-co2": {
         "in": {
-            "unitId": 3,
+            "unitId": 23,
             "register": "input",
-            "address": 3
+            "address": 23
         },
         "out": {
             "site": "nhnacademy",
