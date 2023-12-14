@@ -46,19 +46,19 @@ public class ModbusMessageGenertorNode extends InputOutputNode {
         JSONObject data = (JSONObject) payload.get(key);
 
         JSONObject in = (JSONObject) data.get("in");
+        JSONObject out = (JSONObject) data.get("out");
         byte unitId = ((Number) in.get("unitId")).byteValue();
 
-
         JSONObject modbusPayload = new JSONObject();
-        modbusPayload.put("value", data.get("value"));
-        modbusPayload.put("unitId", data.get("unitId"));
-        modbusPayload.put("address", data.get("address"));
-
+        modbusPayload.put("value", out.get("value"));
+        modbusPayload.put("unitId", in.get("unitId"));
+        modbusPayload.put("register", in.get("register"));
+        modbusPayload.put("address", in.get("address"));
 
         ModbusMessage modbusMessage =
                 new ModbusMessage(unitId, modbusPayload.toJSONString().getBytes());
+        System.out.println(modbusPayload.toJSONString());
         output(modbusMessage);
-
     }
 
     public static void main(String[] args) {

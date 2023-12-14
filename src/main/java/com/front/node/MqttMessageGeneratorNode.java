@@ -54,9 +54,9 @@ public class MqttMessageGeneratorNode extends InputOutputNode {
         JSONObject mqttPayload = new JSONObject();
         mqttPayload.put("time", new Date().getTime());
         mqttPayload.put("value", data.get("value"));
-
         MyMqttMessage mqttMessage =
                 new MyMqttMessage(id, topic, mqttPayload.toJSONString().getBytes());
+
         output(mqttMessage);
     }
 
