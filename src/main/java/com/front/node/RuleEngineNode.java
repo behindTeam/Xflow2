@@ -34,6 +34,12 @@ public class RuleEngineNode extends InputOutputNode{
                     msgParser((JsonMessage) myMessage);
                 
             }
+        } else if ((getInputWire(1) != null) && (getInputWire(1).hasMessage())) {
+            Message myMessage = getInputWire(1).get();
+            if (myMessage instanceof JsonMessage &&  (Objects.nonNull(((JsonMessage) myMessage).getPayload()))) {
+                    msgParser((JsonMessage) myMessage);
+                
+            }
         }
     }
 
