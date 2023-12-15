@@ -79,7 +79,7 @@ public class ModbusServerNode extends InputOutputNode {
                 object.put("address", unitData.get("address"));
                 object.put("value", unitData.get("value"));
 
-                map.put(((Long)unitData.get("unitId")).intValue(), object);
+                map.put(((Long) unitData.get("unitId")).intValue(), object);
                 log.info("mapdata : {}", map.toString());
             }
         }
@@ -139,9 +139,8 @@ public class ModbusServerNode extends InputOutputNode {
                     switch (functionCode) {
                         case 3:
                             int[] holdingregisters = new int[address + 100];
-                            int unitAddress = ((Long)map.get(unitId).get("address")).intValue();
-                            int unitValue = ((Double)map.get(unitId).get("value")).intValue();
-                            
+                            int unitAddress = ((Long) map.get(unitId).get("address")).intValue();
+                            int unitValue = ((Double) map.get(unitId).get("value")).intValue();
 
                             holdingregisters[unitAddress] = unitValue;
                             if (address + quantity < holdingregisters.length) {
@@ -151,32 +150,6 @@ public class ModbusServerNode extends InputOutputNode {
                                 outputStream.flush();
                             }
                             break;
-<<<<<<< HEAD
-=======
-
-                        case 4:
-                            // if (address + quantity < holdingregisters.length) {
-                            // outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
-                            // SimpleMB.makeReadInputRegistersRequest(address, quantity)));
-                            // outputStream.flush();
-                            // }
-                            break;
-                        case 6:
-                            // if (address + quantity < holdingregisters.length) {
-                            // outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
-                            // SimpleMB.makeWriteSingleRegistersRequest(address, quantity)));
-                            // outputStream.flush();
-                            // }
-                            break;
-                        case 16:
-                            // if (address + quantity < holdingregisters.length) {
-
-                            // // outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
-                            // // SimpleMB.makeWriteSingleRegistersRequest(address,)));
-                            // // outputStream.flush();
-                            // }
-                            break;
->>>>>>> feature/AIGY01-032
                     }
                 }
             } else if (receiveLength < 0) {
