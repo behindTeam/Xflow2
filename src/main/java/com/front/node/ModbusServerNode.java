@@ -22,9 +22,13 @@ import com.front.SimpleMB;
 import com.front.message.JsonMessage;
 import com.front.message.Message;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class ModbusServerNode extends InputOutputNode {
     Map<Integer, JSONObject> map = new HashMap<>();
-    ServerSocket serverSocket;
+    ServerSocket modbusServerSocket;
+    Consumer<Socket> clientConsumer;
     Consumer<ServerSocket> consumer;
     ThreadPoolExecutor threadPoolExecutor;
 
@@ -39,17 +43,27 @@ public class ModbusServerNode extends InputOutputNode {
     @Override
     void preprocess() {
         try {
-            serverSocket = new ServerSocket(11502);
+            modbusServerSocket = new ServerSocket(11502);
         } catch (IOException e) {
             e.printStackTrace();
         }
         threadPoolExecutor = new ThreadPoolExecutor(10, 30, DEFAULT_INTERVAL, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>(20));
-        consumer = socket -> {
+        clientConsumer = socket -> {
             try {
                 generateResponse(socket);
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        };
+        consumer = serverSocket -> {
+            while (!serverSocket.isClosed()) {
+                try {
+                    Socket clientSocket = serverSocket.accept();
+                    threadPoolExecutor.execute(() -> clientConsumer.accept(clientSocket));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         };
     }
@@ -66,6 +80,7 @@ public class ModbusServerNode extends InputOutputNode {
                 object.put("value", unitData.get("value"));
 
                 map.put((Integer) unitData.get("unitId"), object);
+                log.info("mapdata : {}", map.toString());
             }
         }
     }
@@ -81,7 +96,8 @@ public class ModbusServerNode extends InputOutputNode {
 
         long startTime = System.currentTimeMillis();
         long previousTime = startTime;
-        threadPoolExecutor.execute(() -> consumer.accept(serverSocket));
+        threadPoolExecutor.execute(() -> consumer.accept(modbusServerSocket));
+        // consumer.accept(modbusServerSocket);
 
         while (isAlive()) {
             long currentTime = System.currentTimeMillis();
@@ -102,8 +118,7 @@ public class ModbusServerNode extends InputOutputNode {
         postprocess();
     }
 
-    public void generateResponse(ServerSocket serverSocket) throws IOException {
-        Socket socket = serverSocket.accept();
+    public void generateResponse(Socket socket) throws IOException {
         BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream());
         BufferedOutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
         while (socket.isConnected()) {
@@ -141,7 +156,7 @@ public class ModbusServerNode extends InputOutputNode {
                 break;
             }
 
-            // socket.close();
+            socket.close();
 
         }
     }
