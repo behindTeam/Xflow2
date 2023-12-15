@@ -21,8 +21,7 @@ public class MessageParsingTest {
 
         ProcessCommandLineNode node = new ProcessCommandLineNode();
         MqttInNode mqttInNode = new MqttInNode();
-        MessageParsingNode msgParsingNode = new MessageParsingNode();
-        MqttOutNode mqttOutNode = new MqttOutNode();
+        MessageParsingNode msgParsingNode = new MessageParsingNode(2,1);
 
         wire1.put(argMessage);
 
@@ -32,13 +31,13 @@ public class MessageParsingTest {
         msgParsingNode.connectInputWire(0, wire2);
         msgParsingNode.connectInputWire(1, wire3);
         msgParsingNode.connectOutputWire(0, wire4);
-        mqttOutNode.connectInputWire(0, wire4);
 
         node.start();
         node.join();
         mqttInNode.start();
         msgParsingNode.start();
-        mqttOutNode.start();
+
+        System.out.println(msgParsingNode.getOutputWire(0));
     }
 
 }

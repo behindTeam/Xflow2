@@ -95,13 +95,14 @@ public class Configurations {
             } else if (nodeType.equals("messageParsing")) {
                 nodeName = "com.front.node.MessageParsingNode";
             } else if (nodeType.equals("mqtt-broker")) {
-                createClient((String) jsonObject.get("broker"), (String) jsonObject.get("id"));
+                createClient((String) jsonObject.get("broker"), (String) jsonObject.get("port"),
+                        (String) jsonObject.get("id"));
             }
             if (Objects.isNull(nodeName)) {
                 return;
             }
             Class<?> clazz = Class.forName(nodeName);
-            Node node = (Node) clazz.getDeclaredConstructor().newInstance(); // 노드 생성
+            Node node = (Node) clazz.getDeclaredConstructor(int.class, int.class).newInstance(3, 3); // 노드 생성
 
             Method setNameMethod = clazz.getMethod("setName", String.class);
 
@@ -117,12 +118,18 @@ public class Configurations {
             nodeMap.put((jsonObject.get("id")).toString(), node);
 
             // 노드 타입에 따른 설정 분배
+
             switch (nodeName) {
                 case "com.front.node.MessageParsingNode":
-                    Method configureSettingsMethod = clazz.getMethod("configureSettings", JSONObject.class);
+                    Method configureSettingsMethod = clazz.getMethod("configureSettings",
+                            JSONObject.class);
                     JSONObject settings = (JSONObject) ((JSONArray) (jsonArray.get(1))).get(0);
                     settings.putAll(processCommandLine(configurationArgs));
                     configureSettingsMethod.invoke(node, settings);
+                    break;
+                case "com.front.node.MqttInNode":
+                    Method setTopicMethod = clazz.getMethod("setTopic", String.class);
+                    setTopicMethod.invoke(node, jsonObject.get("topic"));
                     break;
                 default:
                     break;
@@ -142,7 +149,6 @@ public class Configurations {
         String nodeName = "com.front.node.InputOutputNode";
 
         try {
-
             Class<?> clazz = Class.forName(wireName);
             Object wire = clazz.getDeclaredConstructor().newInstance();
 
@@ -152,23 +158,24 @@ public class Configurations {
             Method connectInputWireMethod = nodeClazz.getMethod("connectInputWire", int.class, Wire.class); // 메소드
                                                                                                             // 호출
 
-            connectOutputWireMethod.invoke(before, 0, wire);
-            connectInputWireMethod.invoke(after, 0, wire);
+            connectOutputWireMethod.invoke(before, ((InputOutputNode) before).getOutputWireCount(), wire);
+            connectInputWireMethod.invoke(after, ((InputOutputNode) after).getInputWireCount(), wire);
 
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException
                 | IllegalAccessException | InvocationTargetException e) {
             System.err.println(e);
+            e.printStackTrace();
         }
 
     }
 
     // 클라이언트를 생성해주는 메서드
     // Todo: port번호도 가져와야 함
-    private static void createClient(String uri, String id) throws MqttException {
+    private static void createClient(String uri, String port, String id) throws MqttException {
         if (uri.equals("mosquitto")) {
             uri = "localhost";
         }
-        IMqttClient serverClient = new MqttClient("tcp://" + uri, id);
+        IMqttClient serverClient = new MqttClient("tcp://" + uri + ":" + port, id);
         ClientList.getClientList().addClient(id, serverClient);
     }
 

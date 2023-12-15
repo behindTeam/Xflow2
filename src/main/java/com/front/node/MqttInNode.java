@@ -2,9 +2,7 @@ package com.front.node;
 
 import java.util.UUID;
 
-import org.apache.logging.log4j.LogManager;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
-import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import com.front.message.MyMqttMessage;
 import com.front.wire.Wire;
@@ -12,6 +10,7 @@ import com.front.wire.Wire;
 public class MqttInNode extends InputOutputNode {
     Wire outputWire;
     IMqttClient client;
+    String topicFilter;
 
     public MqttInNode() {
         this(1, 1);
@@ -23,6 +22,10 @@ public class MqttInNode extends InputOutputNode {
 
     public void setClient(IMqttClient client) {
         this.client = client;
+    }
+
+    public void setTopic(String topicFilter) {
+        this.topicFilter = topicFilter;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class MqttInNode extends InputOutputNode {
 
             serverClient.connect(options);
 
-            serverClient.subscribe("application/+/device/+/+/up", (topic, msg) -> {
+            serverClient.subscribe(topicFilter, (topic, msg) -> {
                 MyMqttMessage mqttmessage = new MyMqttMessage(cunnetId, topic, msg.getPayload());
                 output(mqttmessage);
             });
@@ -51,7 +54,7 @@ public class MqttInNode extends InputOutputNode {
 
             serverClient.disconnect();
         } catch (Exception e) {
-            System.err.println("");
+            e.printStackTrace();
         }
     }
 
