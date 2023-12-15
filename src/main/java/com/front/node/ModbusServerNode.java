@@ -9,19 +9,24 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.json.simple.JSONObject;
 
-import com.front.wire.Wire;
 import com.front.SimpleMB;
 import com.front.message.JsonMessage;
 import com.front.message.Message;
 
 public class ModbusServerNode extends InputOutputNode {
-    Wire outputWire;
-    IMqttClient client;
     Map<Integer, JSONObject> map = new HashMap<>();
+    ServerSocket serverSocket;
+    Consumer<ServerSocket> consumer;
+    ThreadPoolExecutor threadPoolExecutor;
 
     public ModbusServerNode() {
         this(1, 1);
@@ -31,13 +36,22 @@ public class ModbusServerNode extends InputOutputNode {
         super(inCount, outCount);
     }
 
-    public void setClient(IMqttClient client) {
-        this.client = client;
-    }
-
     @Override
     void preprocess() {
-        outputWire = getOutputWire(0);
+        try {
+            serverSocket = new ServerSocket(11502);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        threadPoolExecutor = new ThreadPoolExecutor(10, 30, DEFAULT_INTERVAL, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<>(20));
+        consumer = socket -> {
+            try {
+                generateResponse(socket);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
     }
 
     @Override
@@ -54,14 +68,6 @@ public class ModbusServerNode extends InputOutputNode {
                 map.put((Integer) unitData.get("unitId"), object);
             }
         }
-
-        try (ServerSocket serverSocket = new ServerSocket(11502)) {
-            generateResponse(serverSocket);
-
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -72,7 +78,27 @@ public class ModbusServerNode extends InputOutputNode {
     @Override
     public void run() {
         preprocess();
-        process();
+
+        long startTime = System.currentTimeMillis();
+        long previousTime = startTime;
+        threadPoolExecutor.execute(() -> consumer.accept(serverSocket));
+
+        while (isAlive()) {
+            long currentTime = System.currentTimeMillis();
+            long elapsedTime = currentTime - previousTime;
+
+            if (elapsedTime < interval) {
+                try {
+                    process();
+                    Thread.sleep(interval - elapsedTime);
+                } catch (InterruptedException e) {
+                    stop();
+                }
+            }
+
+            previousTime = startTime + (System.currentTimeMillis() - startTime) / interval * interval;
+        }
+
         postprocess();
     }
 
@@ -98,38 +124,15 @@ public class ModbusServerNode extends InputOutputNode {
                     switch (functionCode) {
                         case 3:
                             int[] holdingregisters = new int[address + 100];
-                            int unitAddress = (int) map.get("unitId").get("address");
-                            int unitValue = (int) map.get("value").get("value");
+                            int unitAddress = (int) map.get(unitId).get("address");
+                            int unitValue = (int) map.get(unitId).get("value");
 
-                            holdingregisters[unitAddress] = unitValue; // ?? 얘가 Int가 되는게 맞을까? (나중에 확인)
+                            holdingregisters[unitAddress] = unitValue;
                             if (address + quantity < holdingregisters.length) {
                                 outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
                                         SimpleMB.makeReadHoldingRegisterResponse(address,
-                                                Arrays.copyOfRange(holdingregisters, address, quantity))));
+                                                Arrays.copyOfRange(holdingregisters, address, address + quantity))));
                                 outputStream.flush();
-                            }
-                            break;
-
-                        case 4:
-                            if (address + quantity < holdingregisters.length) {
-                                outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
-                                        SimpleMB.makeReadInputRegistersRequest(address, quantity)));
-                                outputStream.flush();
-                            }
-                            break;
-                        case 6:
-                            if (address + quantity < holdingregisters.length) {
-                                outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
-                                        SimpleMB.makeWriteSingleRegistersRequest(address, quantity)));
-                                outputStream.flush();
-                            }
-                            break;
-                        case 16:
-                            if (address + quantity < holdingregisters.length) {
-
-                                // outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
-                                // SimpleMB.makeWriteSingleRegistersRequest(address,)));
-                                // outputStream.flush();
                             }
                             break;
                     }
@@ -137,6 +140,8 @@ public class ModbusServerNode extends InputOutputNode {
             } else if (receiveLength < 0) {
                 break;
             }
+
+            // socket.close();
 
         }
     }
