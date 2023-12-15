@@ -36,6 +36,7 @@ public class MqtttoModbusFlowTest {
         Wire wire2 = new BufferedWire();
         Wire wire3 = new BufferedWire();
         Wire wire4 = new BufferedWire();
+        Wire wire5 = new BufferedWire();
 
         MqttInNode mqttInNode = new MqttInNode();
         MessageParsingNode messageParsingNode = new MessageParsingNode();

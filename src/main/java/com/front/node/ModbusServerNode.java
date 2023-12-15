@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ModbusServerNode extends InputOutputNode {
-    Map<Integer, JSONObject> map = new HashMap<>();
+    Map<String, JSONObject> map = new HashMap<>();
     ServerSocket modbusServerSocket;
     Consumer<Socket> clientConsumer;
     Consumer<ServerSocket> consumer;
@@ -79,7 +79,7 @@ public class ModbusServerNode extends InputOutputNode {
                 object.put("address", unitData.get("address"));
                 object.put("value", unitData.get("value"));
 
-                map.put((Integer) unitData.get("unitId"), object);
+                map.put(unitData.get("unitId").toString(), object);
                 log.info("mapdata : {}", map.toString());
             }
         }
@@ -139,8 +139,9 @@ public class ModbusServerNode extends InputOutputNode {
                     switch (functionCode) {
                         case 3:
                             int[] holdingregisters = new int[address + 100];
-                            int unitAddress = (int) map.get(unitId).get("address");
-                            int unitValue = (int) map.get(unitId).get("value");
+                            System.out.println("1번 타입 : " + (map.get(String.valueOf(unitId)).get("address")).getClass().getSimpleName());
+                            int unitAddress = (int) map.get(String.valueOf(unitId)).get("address");
+                            int unitValue = (int) map.get(String.valueOf(unitId)).get("value");
 
                             holdingregisters[unitAddress] = unitValue;
                             if (address + quantity < holdingregisters.length) {

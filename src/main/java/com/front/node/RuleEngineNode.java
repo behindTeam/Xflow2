@@ -34,13 +34,14 @@ public class RuleEngineNode extends InputOutputNode {
                 msgParser((JsonMessage) myMessage);
 
             }
-        } else if ((getInputWire(1) != null) && (getInputWire(1).hasMessage())) {
-            Message myMessage = getInputWire(1).get();
-            if (myMessage instanceof JsonMessage &&  (Objects.nonNull(((JsonMessage) myMessage).getPayload()))) {
-                    msgParser((JsonMessage) myMessage);
+        } 
+        // else if ((getInputWire(1) != null) && (getInputWire(1).hasMessage())) {
+        //     Message myMessage = getInputWire(1).get();
+        //     if (myMessage instanceof JsonMessage &&  (Objects.nonNull(((JsonMessage) myMessage).getPayload()))) {
+        //             msgParser((JsonMessage) myMessage);
                 
-            }
-        }
+        //     }
+        // }
     }
 
     @Override
@@ -62,8 +63,6 @@ public class RuleEngineNode extends InputOutputNode {
                     Object value = payload.get(key);
                     target.replace("value", value);
                     data.put(key, target);
-                    System.out.println("--------->  Mqtt 메시지 입니다.");
-                    System.out.println(new JSONObject(data));
                     output(new JsonMessage(new JSONObject(data)));
                 } else if (key.equals("payload")) {
                     JSONObject targetIn = (JSONObject) database.get(fromdatabaseskey.toString());
@@ -74,9 +73,8 @@ public class RuleEngineNode extends InputOutputNode {
                         JSONObject outTarget = (JSONObject) database.get(fromdatabaseskey.toString());
                         Object value = recievePayload.get("value");
                         outTarget.replace("value", value);
+                        System.out.println(outTarget.get("value"));
                         data.put(fromdatabaseskey.toString(), outTarget);
-                        System.out.println("--------->  Modbus 메시지 입니다.");
-                        System.out.println(new JSONObject(data));
                         output(new JsonMessage(new JSONObject(data)));
                     }
                 }
