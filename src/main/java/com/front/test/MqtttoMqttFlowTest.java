@@ -61,6 +61,8 @@ public class MqtttoMqttFlowTest {
         messageParsingNode.connectInputWire(0, wire1);
         messageParsingNode.connectOutputWire(0, wire2);
         ruleEngineNode.connectInputWire(0, wire2);
+        Wire wire5 = new BufferedWire();
+        ruleEngineNode.connectInputWire(1, wire5);
         ruleEngineNode.connectOutputWire(0, wire3);
         mqttMessageGeneratorNode.connectInputWire(0, wire3);
         mqttMessageGeneratorNode.connectOutputWire(0, wire4);

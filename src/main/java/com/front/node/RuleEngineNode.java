@@ -59,11 +59,11 @@ public class RuleEngineNode extends InputOutputNode {
                 if (fromdatabaseskey.toString().equals(key)) {
                     Map<String, Object> data = new HashMap<>();
                     JSONObject target = (JSONObject) database.get(key);
-                    Object value = payload.get(key);
+                    Object value = ((HashMap<?, ?>)(payload.get(key))).get("value");
                     target.replace("value", value);
                     data.put(key, target);
-                    System.out.println("--------->  Mqtt 메시지 입니다.");
-                    System.out.println(new JSONObject(data));
+                    // System.out.println("--------->  Mqtt 메시지 입니다.");
+                    // System.out.println(new JSONObject(data));
                     output(new JsonMessage(new JSONObject(data)));
                 } else if (key.equals("payload")) {
                     JSONObject targetIn = (JSONObject) database.get(fromdatabaseskey.toString());
@@ -75,8 +75,8 @@ public class RuleEngineNode extends InputOutputNode {
                         Object value = recievePayload.get("value");
                         outTarget.replace("value", value);
                         data.put(fromdatabaseskey.toString(), outTarget);
-                        System.out.println("--------->  Modbus 메시지 입니다.");
-                        System.out.println(new JSONObject(data));
+                        // System.out.println("--------->  Modbus 메시지 입니다.");
+                        // System.out.println(new JSONObject(data));
                         output(new JsonMessage(new JSONObject(data)));
                     }
                 }

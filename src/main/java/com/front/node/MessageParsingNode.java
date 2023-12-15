@@ -72,7 +72,7 @@ public class MessageParsingNode extends InputOutputNode {
                                     data.put("value", object.get(sensorType));
                                     outMessage.put(deviceInfo.get("devEui")+"-"+sensorType.toString(), data);
                                     output(new JsonMessage(new JSONObject(outMessage)));
-                                    System.out.println(new JSONObject(outMessage));
+                                    // System.out.println(new JSONObject(outMessage));
                                 }
                         }
                     }
