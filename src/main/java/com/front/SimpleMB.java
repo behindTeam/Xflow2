@@ -19,50 +19,50 @@ public class SimpleMB {
         return frame;
     }
 
-    public static byte[] makeReadInputRegistersResponse(int address, int[] registers) {
-        byte[] frame = new byte[1 + 1 + registers.length * 2];
+    public static byte[] makeReadInputRegistersResponse(int startingAddress, int quantityOfRegisters) {
+        byte[] frame = new byte[6];
 
         frame[0] = 0x04;
 
-        frame[1] = (byte) (registers.length * 2);
+        frame[1] = (byte) ((startingAddress >> 8) & 0xFF);
+        frame[2] = (byte) (startingAddress & 0xFF);
 
-        for (int i = 0; i < registers.length; i++) {
-            frame[2 + i * 2] = (byte) ((registers[i] >> 8) & 0xFF);
-            frame[2 + i * 2 + 1] = (byte) ((registers[i]) & 0xFF);
-        }
-
-        return frame;
-    }
-
-    public static byte[] makeWriteSingleRegistersResponse(int address, int[] registers) {
-        byte[] frame = new byte[1 + 1 + registers.length * 2];
-
-        frame[0] = 0x06;
-
-        frame[1] = (byte) (registers.length * 2);
-
-        for (int i = 0; i < registers.length; i++) {
-            frame[2 + i * 2] = (byte) ((registers[i] >> 8) & 0xFF);
-            frame[2 + i * 2 + 1] = (byte) ((registers[i]) & 0xFF);
-        }
+        frame[3] = (byte) ((quantityOfRegisters >> 8) & 0xFF);
+        frame[4] = (byte) (quantityOfRegisters & 0xFF);
 
         return frame;
     }
+    // public static byte[] makeWriteSingleRegistersResponse(int address, int[]
+    // registers) {
+    // byte[] frame = new byte[1 + 1 + registers.length * 2];
 
-    public static byte[] makeMaskWriteRegistersResponse(int address, int[] registers) {
-        byte[] frame = new byte[1 + 1 + registers.length * 2];
+    // frame[0] = 0x06;
 
-        frame[0] = 0x16;
+    // frame[1] = (byte) (registers.length * 2);
 
-        frame[1] = (byte) (registers.length * 2);
+    // for (int i = 0; i < registers.length; i++) {
+    // frame[2 + i * 2] = (byte) ((registers[i] >> 8) & 0xFF);
+    // frame[2 + i * 2 + 1] = (byte) ((registers[i]) & 0xFF);
+    // }
 
-        for (int i = 0; i < registers.length; i++) {
-            frame[2 + i * 2] = (byte) ((registers[i] >> 8) & 0xFF);
-            frame[2 + i * 2 + 1] = (byte) ((registers[i]) & 0xFF);
-        }
+    // return frame;
+    // }
 
-        return frame;
-    }
+    // public static byte[] makeMaskWriteRegistersResponse(int address, int[]
+    // registers) {
+    // byte[] frame = new byte[1 + 1 + registers.length * 2];
+
+    // frame[0] = 0x16;
+
+    // frame[1] = (byte) (registers.length * 2);
+
+    // for (int i = 0; i < registers.length; i++) {
+    // frame[2 + i * 2] = (byte) ((registers[i] >> 8) & 0xFF);
+    // frame[2 + i * 2 + 1] = (byte) ((registers[i]) & 0xFF);
+    // }
+
+    // return frame;
+    // }
 
     // response반응
     public static byte[] makeReadHoldingRegistersRequest(int address, int quantity) {
@@ -84,28 +84,6 @@ public class SimpleMB {
         return frame;
 
     }
-
-    // 이걸 request로 해서 temperature, humidity, co2를 받아올려고 한다
-    // public static byte[] makeReadHoldingRegistersRequest(int address, int
-    // quantity) {
-    // byte[] frame = new byte[5];
-    // ByteBuffer b = ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN);
-
-    // // PDU의 function code
-    // frame[0] = 0x03;
-
-    // // PDU의 data
-    // b.putInt(address);
-    // frame[1] = b.get(2);
-    // frame[2] = b.get(3);
-
-    // b.clear();
-    // b.putInt(quantity);
-    // frame[3] = b.get(2);
-    // frame[4] = b.get(3);
-    // return frame;
-
-    // }
 
     public static byte[] makeReadInputRegistersRequest(int address, int quantity) {
         byte[] frame = new byte[5];

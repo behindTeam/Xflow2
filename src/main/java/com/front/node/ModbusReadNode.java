@@ -2,12 +2,16 @@ package com.front.node;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-import org.eclipse.paho.client.mqttv3.IMqttClient;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.front.SimpleMB;
 import com.front.message.ModbusMessage;
@@ -18,7 +22,9 @@ public class ModbusReadNode extends InputOutputNode {
     String URI;
     byte unitId = 1;
     int port;
+    int interval;
     int[] holdingregisters = new int[100];
+    JSONParser parser = new JSONParser();
 
     public ModbusReadNode() {
         this(1, 1);
@@ -36,6 +42,10 @@ public class ModbusReadNode extends InputOutputNode {
         this.port = port;
     }
 
+    public void setInterval(int interval) {
+        this.interval = interval;
+    }
+
     @Override
     void preprocess() {
         //
@@ -46,42 +56,38 @@ public class ModbusReadNode extends InputOutputNode {
         try (Socket socket = new Socket("127.0.0.1", 502);
                 BufferedOutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
                 BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream())) {
-            // byte[] request = { 0, 1, 0, 0, 0, 6, 1, 3, 0, 0, 0, 5 };
+            FileReader reader = new FileReader(
+                    "/home/nhnacademy/xflow2(12-11) project/Xflow2/src/main/java/com/front/resources/pdu.json");
 
-            int unitId = 1;
+            JSONObject pduObject = (JSONObject) parser.parse(reader);
+            JSONObject unitId = (JSONObject) pduObject.get("unitId");
+
             int transactionId = 0;
-            byte[] request = SimpleMB.addMBAP(transactionId, unitId,
-                    SimpleMB.makeReadHoldingRegistersRequest(201, 1));
-            outputStream.write(request);
-            outputStream.flush();
 
-            System.out.println("request byte[]: " + Arrays.toString(request));
-            byte[] response = new byte[512];
-            int receivedLength = inputStream.read(response, 0, response.length);
+            for (Object key : unitId.keySet()) {
+                JSONObject keyObject = (JSONObject) unitId.get(key);
+                int address = Integer.parseInt(keyObject.get("address").toString());
+                int unit = Integer.parseInt(key.toString());
 
-            output(new ModbusMessage(response[7], response));
-            System.out.println("response byte[]: " + Arrays.toString(Arrays.copyOfRange(response, 0,
-                    receivedLength)) + "\n");
+                Thread.sleep(1000);
+                byte[] request = SimpleMB.addMBAP(++transactionId, unit,
+                        SimpleMB.makeReadHoldingRegistersRequest(address, 2));
 
-            // let frame = [];
-            // let length = 0;
+                System.out.println("request[]: " + Arrays.toString(request));
 
-            // frame[length++] = ((msg.transactionId >> 8) & 0xFF);
-            // frame[length++] = (msg.transactionId & 0xFF);
-            // frame[length++] =0;
-            // frame[length++] =0;
-            // frame[length++] =0;
-            // frame[length++] =6;
-            // frame[length++] =msg.unitId;
-            // frame[length++] =msg.functionCode;
-            // frame[length++] =((msg.address >> 8) & 0xFF);
-            // frame[length++] =(msg.address & 0xFF);
-            // frame[length++] =((msg.payload >>8) & 0xFF);
-            // frame[length++] =(msg.payload & 0xFF);
+                outputStream.write(request);
+                outputStream.flush();
+                byte[] response = new byte[512];
+                int receivedLength = inputStream.read(response, 0, response.length);
 
+                output(new ModbusMessage(response[7], response));
+                System.out.println("response byte[]: " +
+                        Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)) + "\n");
+
+            }
         } catch (UnknownHostException e) {
             System.err.println("Unknown host!!");
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException | ParseException e) {
             e.printStackTrace();
         }
     }

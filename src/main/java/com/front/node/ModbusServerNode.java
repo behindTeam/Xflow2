@@ -17,7 +17,6 @@ public class ModbusServerNode extends InputOutputNode {
     IMqttClient client;
     byte unitId = 1;
     int[] holdingregisters = new int[100];
-    int port;
 
     public ModbusServerNode() {
         this(1, 1);
@@ -29,10 +28,6 @@ public class ModbusServerNode extends InputOutputNode {
 
     public void setClient(IMqttClient client) {
         this.client = client;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
     }
 
     @Override
@@ -56,67 +51,51 @@ public class ModbusServerNode extends InputOutputNode {
                 int receiveLength = inputStream.read(inputBuffer, 0, inputBuffer.length);
 
                 if (receiveLength > 0) {
-                    System.out.println(Arrays.toString(Arrays.copyOfRange(inputBuffer, 0,
-                            receiveLength)));
+                    System.out.println(
+                            Arrays.toString(Arrays.copyOfRange(inputBuffer, 0, receiveLength)));
 
                     if ((receiveLength > 7) && (6 + inputBuffer[5] == receiveLength)) {
                         if (unitId == inputBuffer[6]) {
-                            int transactionId = inputBuffer[0] << 8 | inputBuffer[1];
+                            int transactionId = (inputBuffer[0] << 8) | inputBuffer[1];
                             int functionCode = inputBuffer[7];
+                            int address = (inputBuffer[8] << 8) | inputBuffer[9];
+                            int quantity = (inputBuffer[10] << 8) | inputBuffer[11];
 
                             switch (functionCode) {
                                 case 3:
-                                    int address = (inputBuffer[8] << 8) | inputBuffer[9];
-                                    int quantity = (inputBuffer[10] << 8) | inputBuffer[11];
-
                                     if (address + quantity < holdingregisters.length) {
-                                        // System.out.println("address : " + address + ", quantitiy : " + quantity);
-
                                         outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
                                                 SimpleMB.makeReadHoldingRegisterResponse(address,
-                                                        Arrays.copyOfRange(holdingregisters, address, quantity))));
+                                                        Arrays.copyOfRange(holdingregisters,
+                                                                address, quantity))));
                                         outputStream.flush();
                                     }
                                     break;
-                                case 4:
-                                    address = (inputBuffer[8] << 8) | inputBuffer[9];
-                                    quantity = (inputBuffer[10] << 8) | inputBuffer[11];
-                                    if (address + quantity < holdingregisters.length) {
-                                        // System.out.println("address : " + address + ", quantitiy : " + quantity);
 
+                                case 4:
+                                    if (address + quantity < holdingregisters.length) {
                                         outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
-                                                SimpleMB.makeReadInputRegistersResponse(address,
-                                                        Arrays.copyOfRange(holdingregisters, address, quantity))));
+                                                SimpleMB.makeReadInputRegistersResponse(address, quantity)));
                                         outputStream.flush();
                                     }
                                     break;
                                 case 6:
-                                    address = (inputBuffer[8] << 8) | inputBuffer[9];
-                                    quantity = (inputBuffer[10] << 8) | inputBuffer[11];
                                     if (address + quantity < holdingregisters.length) {
-                                        System.out.println("address : " + address + ", quantitiy : " + quantity);
-
                                         outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
-                                                SimpleMB.makeWriteSingleRegistersResponse(address,
-                                                        Arrays.copyOfRange(holdingregisters, address, quantity))));
+                                                SimpleMB.makeWriteSingleRegistersRequest(address,
+                                                        quantity)));
                                         outputStream.flush();
                                     }
                                     break;
                                 case 16:
-                                    // address = (inputBuffer[8] << 8) | inputBuffer[9];
-                                    // int and_Mask = (inputBuffer[10] << 8) | inputBuffer[11];
-                                    // int or_Mask = (inputBuffer[12] << 8) | inputBuffer[13];
-                                    // if (address + and_Mask + or_Mask < holdingregisters.length) {
-                                    // System.out.println("address : " + address + ", and_Mask : " + and_Mask
-                                    // + ", or_mask : " + or_Mask);
-                                    // outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
-                                    // SimpleMB.makeMaskWriteRegistersResponse(address,
-                                    // Arrays.copyOfRange(holdingregisters, address, and_Mask,
-                                    // or_Mask))));
+                                    if (address + quantity < holdingregisters.length) {
 
-                                    // }
+                                        outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
+                                                SimpleMB.makeWriteSingleRegistersRequest(address,
+                                                        quantity)));
+                                        outputStream.flush();
+                                    }
                                     break;
-                                default:
                             }
                         }
 

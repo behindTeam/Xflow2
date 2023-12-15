@@ -63,8 +63,8 @@ public class ModBusMapperNode extends InputOutputNode {
     public void modbusMapper(ModbusMessage modbusMessage) {
 
         try {
-            unitId = modbusMessage.getAdu()[7];
-            value = modbusMessage.getAdu()[11];
+            unitId = modbusMessage.getUnitId();
+            value = modbusMessage.getAdu()[12];
 
             Map<String, Object> data = new HashMap<>();
             Map<String, Object> sendMessage = new HashMap<>();
