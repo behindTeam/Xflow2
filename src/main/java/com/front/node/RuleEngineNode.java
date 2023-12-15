@@ -48,7 +48,8 @@ public class RuleEngineNode extends InputOutputNode {
         String key = (String) payload.keySet().toArray()[0];
 
         try {
-            JSONObject database = (JSONObject) parser.parse(new FileReader("src/main/java/com/front/database.json"));
+            JSONObject database = (JSONObject) parser.parse(new FileReader(
+                    "/home/nhnacademy/xflow2(12-11) project/Xflow2/src/main/java/com/front/resources/database.json"));
             for (Object fromdatabaseskey : database.keySet()) {
                 if (fromdatabaseskey.toString().equals(key)) {
                     Map<String, Object> data = new HashMap<>();

@@ -64,11 +64,13 @@ public class ModBusMapperNode extends InputOutputNode {
 
         try {
             unitId = modbusMessage.getUnitId();
-            value = modbusMessage.getAdu()[12];
+            value = modbusMessage.getAdu()[10];
 
-            Map<String, Object> data = new HashMap<>();
-            Map<String, Object> sendMessage = new HashMap<>();
-
+            // Map<String, Object> data = new HashMap<>();
+            // Map<String, Object> sendMessage = new HashMap<>();
+            JSONObject data = new JSONObject();
+            JSONObject sendMessage = new JSONObject();
+            
             data.put("unitId", unitId);
             data.put("value", value);
             sendMessage.put("payload", data);
@@ -76,7 +78,7 @@ public class ModBusMapperNode extends InputOutputNode {
             JSONObject jsonMessage = new JSONObject(sendMessage);
 
             output(new JsonMessage(jsonMessage));
-            // System.out.println(jsonMessage.toString());
+            System.out.println("받은 데이터: " + jsonMessage.toString());
         } catch (Exception e) {
         }
 

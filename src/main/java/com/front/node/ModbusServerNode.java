@@ -111,26 +111,26 @@ public class ModbusServerNode extends InputOutputNode {
                             break;
 
                         case 4:
-                            if (address + quantity < holdingregisters.length) {
-                                outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
-                                        SimpleMB.makeReadInputRegistersRequest(address, quantity)));
-                                outputStream.flush();
-                            }
+                            // if (address + quantity < holdingregisters.length) {
+                            // outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
+                            // SimpleMB.makeReadInputRegistersRequest(address, quantity)));
+                            // outputStream.flush();
+                            // }
                             break;
                         case 6:
-                            if (address + quantity < holdingregisters.length) {
-                                outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
-                                        SimpleMB.makeWriteSingleRegistersRequest(address, quantity)));
-                                outputStream.flush();
-                            }
+                            // if (address + quantity < holdingregisters.length) {
+                            // outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
+                            // SimpleMB.makeWriteSingleRegistersRequest(address, quantity)));
+                            // outputStream.flush();
+                            // }
                             break;
                         case 16:
-                            if (address + quantity < holdingregisters.length) {
+                            // if (address + quantity < holdingregisters.length) {
 
-                                // outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
-                                // SimpleMB.makeWriteSingleRegistersRequest(address,)));
-                                // outputStream.flush();
-                            }
+                            // // outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
+                            // // SimpleMB.makeWriteSingleRegistersRequest(address,)));
+                            // // outputStream.flush();
+                            // }
                             break;
                     }
                 }

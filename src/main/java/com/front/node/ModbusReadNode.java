@@ -42,13 +42,9 @@ public class ModbusReadNode extends InputOutputNode {
         this.port = port;
     }
 
-    public void setInterval(int interval) {
-        this.interval = interval;
-    }
-
     @Override
     void preprocess() {
-        //
+        setInterval(1000 * 60);
     }
 
     @Override
@@ -85,7 +81,21 @@ public class ModbusReadNode extends InputOutputNode {
                         Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)) + "\n");
 
             }
-        } catch (UnknownHostException e) {
+
+            // Thread.sleep(5000);
+            // byte[] request = SimpleMB.addMBAP(++transactionId, 3,
+            // SimpleMB.makeReadHoldingRegistersRequest(3, 1));
+
+            // outputStream.write(request);
+            // outputStream.flush();
+            // byte[] response = new byte[512];
+            // int receivedLength = inputStream.read(response, 0, response.length);
+
+            // output(new ModbusMessage(response[7], response));
+            // System.out.println("response byte[]: " +
+            // Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)) + "\n");
+
+            // } catch (UnknownHostException e) {
             System.err.println("Unknown host!!");
         } catch (IOException | InterruptedException | ParseException e) {
             e.printStackTrace();
@@ -96,12 +106,4 @@ public class ModbusReadNode extends InputOutputNode {
     void postprocess() {
         //
     }
-
-    @Override
-    public void run() {
-        preprocess();
-        process();
-        postprocess();
-    }
-
 }

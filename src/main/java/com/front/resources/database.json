@@ -1,9 +1,8 @@
 {
-    "__주석1__": "100 temperature",
     "24e124128c067999-temperature": {
         "in": {
             "unitId": 1,
-            "register": "input",
+            "register": "100",
             "address": 1
         },
         "out": {
@@ -16,7 +15,7 @@
     "24e124785c389818-temperature": {
         "in": {
             "unitId": 2,
-            "register": "input",
+            "register": "100",
             "address": 2
         },
         "out": {
@@ -29,7 +28,7 @@
     "24e124126d152590-temperature": {
         "in": {
             "unitId": 3,
-            "register": "input",
+            "register": "100",
             "address": 3
         },
         "out": {
@@ -42,7 +41,7 @@
     "24e124128c140101-temperature": {
         "in": {
             "unitId": 4,
-            "register": "input",
+            "register": "100",
             "address": 4
         },
         "out": {
@@ -55,7 +54,7 @@
     "24e124136d151368-temperature": {
         "in": {
             "unitId": 5,
-            "register": "input",
+            "register": "100",
             "address": 5
         },
         "out": {
@@ -68,7 +67,7 @@
     "24e124136d151547-temperature": {
         "in": {
             "unitId": 6,
-            "register": "input",
+            "register": "100",
             "address": 6
         },
         "out": {
@@ -81,7 +80,7 @@
     "24e124785c421885-temperature": {
         "in": {
             "unitId": 7,
-            "register": "input",
+            "register": "100",
             "address": 7
         },
         "out": {
@@ -94,7 +93,7 @@
     "24e124136d150970-temperature": {
         "in": {
             "unitId": 8,
-            "register": "input",
+            "register": "100",
             "address": 8
         },
         "out": {
@@ -107,7 +106,7 @@
     "24e124785c389010-temperature": {
         "in": {
             "unitId": 9,
-            "register": "input",
+            "register": "100",
             "address": 9
         },
         "out": {
@@ -117,7 +116,6 @@
         },
         "value": null
     },
-    "__주석2__": "200 humidity",
     "24e124126d152969-humidity": {
         "in": {
             "unitId": 11,
@@ -222,7 +220,6 @@
         },
         "value": null
     },
-    "__주석3__": "300 CO2",
     "24e124128c067999-co2": {
         "in": {
             "unitId": 21,
