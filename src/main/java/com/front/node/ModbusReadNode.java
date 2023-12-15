@@ -2,21 +2,24 @@ package com.front.node;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-import org.eclipse.paho.client.mqttv3.IMqttClient;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import com.front.SimpleMB;
+import com.front.message.ModbusMessage;
 import com.front.wire.Wire;
 
 public class ModbusReadNode extends InputOutputNode {
-    Wire outputWire;
-    IMqttClient client;
-    byte unitId = 1;
-    int[] holdingregisters = new int[100];
+    int port;
+    JSONParser parser = new JSONParser();
 
     public ModbusReadNode() {
         this(1, 1);
@@ -26,37 +29,52 @@ public class ModbusReadNode extends InputOutputNode {
         super(inCount, outCount);
     }
 
-    public void setClient(IMqttClient client) {
-        this.client = client;
+    public void setPort(int port) {
+        this.port = port;
     }
 
     @Override
     void preprocess() {
         //
+        setInterval(1000 * 10);
     }
 
     @Override
     void process() {
-        try (Socket socket = new Socket("172.19.0.1", 11502);
+        try (Socket socket = new Socket("127.0.0.1", 502);
                 BufferedOutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
                 BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream())) {
-            // byte[] request = { 0, 1, 0, 0, 0, 6, 1, 3, 0, 0, 0, 5 };
-            int unitId = 1;
+            FileReader reader = new FileReader(
+                    "/home/nhnacademy/xflow2(12-11) project/Xflow2/src/main/java/com/front/resources/pdu.json");
+
+            JSONObject pduObject = (JSONObject) parser.parse(reader);
+            JSONObject unitId = (JSONObject) pduObject.get("unitId");
+
             int transactionId = 0;
-            for (int i = 0; i < 10; i++) {
-                byte[] request = SimpleMB.addMBAP(++transactionId, unitId,
-                        SimpleMB.makeReadHoldingRegistersRequest(0, 5));
+
+            for (Object key : unitId.keySet()) {
+                JSONObject keyObject = (JSONObject) unitId.get(key);
+                int address = Integer.parseInt(keyObject.get("address").toString());
+                int unit = Integer.parseInt(key.toString());
+
+                Thread.sleep(20);
+                byte[] request = SimpleMB.addMBAP(++transactionId, unit,
+                        SimpleMB.makeReadHoldingRegistersRequest(address, 1));
+
+                System.out.println("request[]: " + Arrays.toString(request));
+
                 outputStream.write(request);
                 outputStream.flush();
-
                 byte[] response = new byte[512];
                 int receivedLength = inputStream.read(response, 0, response.length);
-                System.out.println(Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)));
-            }
 
+                output(new ModbusMessage(response[6], response));
+                System.out.println("response byte[]: " +
+                        Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)) + "\n");
+            }
         } catch (UnknownHostException e) {
             System.err.println("Unknown host!!");
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException | ParseException e) {
             e.printStackTrace();
         }
     }
@@ -64,13 +82,6 @@ public class ModbusReadNode extends InputOutputNode {
     @Override
     void postprocess() {
         //
-    }
-
-    @Override
-    public void run() {
-        preprocess();
-        process();
-        postprocess();
     }
 
 }

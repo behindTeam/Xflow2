@@ -151,6 +151,32 @@ public class ModbusServerNode extends InputOutputNode {
                                 outputStream.flush();
                             }
                             break;
+<<<<<<< HEAD
+=======
+
+                        case 4:
+                            // if (address + quantity < holdingregisters.length) {
+                            // outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
+                            // SimpleMB.makeReadInputRegistersRequest(address, quantity)));
+                            // outputStream.flush();
+                            // }
+                            break;
+                        case 6:
+                            // if (address + quantity < holdingregisters.length) {
+                            // outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
+                            // SimpleMB.makeWriteSingleRegistersRequest(address, quantity)));
+                            // outputStream.flush();
+                            // }
+                            break;
+                        case 16:
+                            // if (address + quantity < holdingregisters.length) {
+
+                            // // outputStream.write(SimpleMB.addMBAP(transactionId, unitId,
+                            // // SimpleMB.makeWriteSingleRegistersRequest(address,)));
+                            // // outputStream.flush();
+                            // }
+                            break;
+>>>>>>> feature/AIGY01-032
                     }
                 }
             } else if (receiveLength < 0) {

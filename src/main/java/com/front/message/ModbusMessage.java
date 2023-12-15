@@ -6,8 +6,8 @@ public class ModbusMessage extends Message {
     byte[] adu;
     byte unitId;
 
-    public ModbusMessage(byte unitId, byte[] payload) {
-        this.adu = Arrays.copyOf(payload, payload.length);
+    public ModbusMessage(byte unitId, byte[] adu) {
+        this.adu = Arrays.copyOf(adu, adu.length);
         this.unitId = unitId;
     }
 
