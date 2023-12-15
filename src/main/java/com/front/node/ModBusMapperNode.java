@@ -15,7 +15,7 @@ public class ModBusMapperNode extends InputOutputNode {
     Wire outputWire;
     Wire inputWire;
     IMqttClient client;
-    byte value;
+    int value;
     byte unitId;
     int[] holdingregisters = new int[100];
 
@@ -64,13 +64,13 @@ public class ModBusMapperNode extends InputOutputNode {
 
         try {
             unitId = modbusMessage.getUnitId();
-            value = modbusMessage.getAdu()[10];
+            value = (modbusMessage.getAdu()[9] & 0xFF) * 256 + (modbusMessage.getAdu()[10] & 0xFF);
 
             // Map<String, Object> data = new HashMap<>();
             // Map<String, Object> sendMessage = new HashMap<>();
             JSONObject data = new JSONObject();
             JSONObject sendMessage = new JSONObject();
-            
+
             data.put("unitId", unitId);
             data.put("value", value);
             sendMessage.put("payload", data);

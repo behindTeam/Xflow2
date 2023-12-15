@@ -18,12 +18,7 @@ import com.front.message.ModbusMessage;
 import com.front.wire.Wire;
 
 public class ModbusReadNode extends InputOutputNode {
-    Wire outputWire;
-    String URI;
-    byte unitId = 1;
     int port;
-    int interval;
-    int[] holdingregisters = new int[100];
     JSONParser parser = new JSONParser();
 
     public ModbusReadNode() {
@@ -34,17 +29,14 @@ public class ModbusReadNode extends InputOutputNode {
         super(inCount, outCount);
     }
 
-    public void setURI(String URI) {
-        this.URI = URI;
-    }
-
     public void setPort(int port) {
         this.port = port;
     }
 
     @Override
     void preprocess() {
-        setInterval(1000 * 60);
+        //
+        setInterval(1000 * 10);
     }
 
     @Override
@@ -65,9 +57,9 @@ public class ModbusReadNode extends InputOutputNode {
                 int address = Integer.parseInt(keyObject.get("address").toString());
                 int unit = Integer.parseInt(key.toString());
 
-                Thread.sleep(1000);
+                Thread.sleep(20);
                 byte[] request = SimpleMB.addMBAP(++transactionId, unit,
-                        SimpleMB.makeReadHoldingRegistersRequest(address, 2));
+                        SimpleMB.makeReadHoldingRegistersRequest(address, 1));
 
                 System.out.println("request[]: " + Arrays.toString(request));
 
@@ -76,26 +68,11 @@ public class ModbusReadNode extends InputOutputNode {
                 byte[] response = new byte[512];
                 int receivedLength = inputStream.read(response, 0, response.length);
 
-                output(new ModbusMessage(response[7], response));
+                output(new ModbusMessage(response[6], response));
                 System.out.println("response byte[]: " +
                         Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)) + "\n");
-
             }
-
-            // Thread.sleep(5000);
-            // byte[] request = SimpleMB.addMBAP(++transactionId, 3,
-            // SimpleMB.makeReadHoldingRegistersRequest(3, 1));
-
-            // outputStream.write(request);
-            // outputStream.flush();
-            // byte[] response = new byte[512];
-            // int receivedLength = inputStream.read(response, 0, response.length);
-
-            // output(new ModbusMessage(response[7], response));
-            // System.out.println("response byte[]: " +
-            // Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)) + "\n");
-
-            // } catch (UnknownHostException e) {
+        } catch (UnknownHostException e) {
             System.err.println("Unknown host!!");
         } catch (IOException | InterruptedException | ParseException e) {
             e.printStackTrace();
@@ -106,4 +83,5 @@ public class ModbusReadNode extends InputOutputNode {
     void postprocess() {
         //
     }
+
 }
