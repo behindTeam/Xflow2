@@ -41,7 +41,7 @@ public class MqtttoModbusFlowTest {
         MessageParsingNode messageParsingNode = new MessageParsingNode();
         RuleEngineNode ruleEngineNode = new RuleEngineNode();
         ModbusMessageGenertorNode modbusMessageGenertorNode = new ModbusMessageGenertorNode();
-        ModbusServerNode modbusServerNode= new ModbusServerNode();
+        ModbusServerNode modbusServerNode = new ModbusServerNode();
         IMqttClient serverClient = null;
         IMqttClient hostClient = null;
 
@@ -77,4 +77,3 @@ public class MqtttoModbusFlowTest {
 
     }
 }
-

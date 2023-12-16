@@ -70,19 +70,22 @@ public class ModbusServerNode extends InputOutputNode {
 
     @Override
     void process() {
-        if ((getInputWire(0) != null) && (getInputWire(0).hasMessage())) {
-            Message unitDataMessage = getInputWire(0).get();
-            if (unitDataMessage instanceof JsonMessage
-                    && (Objects.nonNull(((JsonMessage) unitDataMessage).getPayload()))) {
-                JSONObject unitData = ((JsonMessage) unitDataMessage).getPayload();
-                JSONObject object = new JSONObject();
-                object.put("address", unitData.get("address"));
-                object.put("value", unitData.get("value"));
+        for (int index = 0; index < getInputWireCount(); index++) {
+            if ((getInputWire(index) != null) && (getInputWire(index).hasMessage())) {
+                Message unitDataMessage = getInputWire(index).get();
+                if (unitDataMessage instanceof JsonMessage
+                        && (Objects.nonNull(((JsonMessage) unitDataMessage).getPayload()))) {
+                    JSONObject unitData = ((JsonMessage) unitDataMessage).getPayload();
+                    JSONObject object = new JSONObject();
+                    object.put("address", unitData.get("address"));
+                    object.put("value", unitData.get("value"));
 
-                map.put(((Long) unitData.get("unitId")).intValue(), object);
-                // log.info("mapdata : {}", map.toString());
+                    map.put(((Long) unitData.get("unitId")).intValue(), object);
+                    // log.info("mapdata : {}", map.toString());
+                }
             }
         }
+
     }
 
     @Override

@@ -31,17 +31,12 @@ public class RuleEngineNode extends InputOutputNode {
 
     @Override
     void process() {
-        if ((getInputWire(0) != null) && (getInputWire(0).hasMessage())) {
-            Message myMessage = getInputWire(0).get();
-            if (myMessage instanceof JsonMessage && (Objects.nonNull(((JsonMessage) myMessage).getPayload()))) {
-                msgParser((JsonMessage) myMessage);
-
-            }
-        } else if ((getInputWire(1) != null) && (getInputWire(1).hasMessage())) {
-            Message myMessage = getInputWire(1).get();
-            if (myMessage instanceof JsonMessage && (Objects.nonNull(((JsonMessage) myMessage).getPayload()))) {
-                msgParser((JsonMessage) myMessage);
-
+        for (int index = 0; index < getInputWireCount(); index++) {
+            if ((getInputWire(index) != null) && (getInputWire(index).hasMessage())) {
+                Message myMessage = getInputWire(index).get();
+                if (myMessage instanceof JsonMessage && (Objects.nonNull(((JsonMessage) myMessage).getPayload()))) {
+                    msgParser((JsonMessage) myMessage);
+                }
             }
         }
     }

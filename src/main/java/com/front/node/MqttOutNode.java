@@ -40,11 +40,13 @@ public class MqttOutNode extends InputOutputNode {
 
     @Override
     void process() {
-        if ((getInputWire(0) != null) && (getInputWire(0).hasMessage())) {
-            Message myMqttMessage = getInputWire(0).get();
-            if (myMqttMessage instanceof MyMqttMessage) {
-                if (Objects.nonNull(((MyMqttMessage) myMqttMessage).getPayload())) {
-                    publish((MyMqttMessage) myMqttMessage);
+        for (int index = 0; index < getInputWireCount(); index++) {
+            if ((getInputWire(index) != null) && (getInputWire(index).hasMessage())) {
+                Message myMqttMessage = getInputWire(index).get();
+                if (myMqttMessage instanceof MyMqttMessage) {
+                    if (Objects.nonNull(((MyMqttMessage) myMqttMessage).getPayload())) {
+                        publish((MyMqttMessage) myMqttMessage);
+                    }
                 }
             }
         }

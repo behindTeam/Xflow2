@@ -38,11 +38,13 @@ public class ModBusMapperNode extends InputOutputNode {
 
     @Override
     void process() {
-        if ((getInputWire(0) != null) && (getInputWire(0).hasMessage())) {
-            Message modbusMessage = getInputWire(0).get();
-            if (modbusMessage instanceof ModbusMessage) {
-                if (Objects.nonNull(((ModbusMessage) modbusMessage).getAdu())) {
-                    modbusMapper((ModbusMessage) modbusMessage);
+        for (int index = 0; index < getInputWireCount(); index++) {
+            if ((getInputWire(index) != null) && (getInputWire(index).hasMessage())) {
+                Message modbusMessage = getInputWire(index).get();
+                if (modbusMessage instanceof ModbusMessage) {
+                    if (Objects.nonNull(((ModbusMessage) modbusMessage).getAdu())) {
+                        modbusMapper((ModbusMessage) modbusMessage);
+                    }
                 }
             }
         }

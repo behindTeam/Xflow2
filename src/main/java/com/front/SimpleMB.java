@@ -2,7 +2,11 @@ package com.front;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Arrays;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class SimpleMB {
     public static byte[] makeReadHoldingRegisterResponse(int address, int[] registers) {
         byte[] frame = new byte[1 + 1 + registers.length * 2];
@@ -167,7 +171,7 @@ public class SimpleMB {
         adu[5] = (byte) (pdu.length + 1);
         adu[6] = (byte) unitId;
         System.arraycopy(pdu, 0, adu, 7, pdu.length);
-
+        log.info("mbap: {}", Arrays.toString(adu));
         return adu;
     }
 }

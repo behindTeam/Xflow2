@@ -28,13 +28,16 @@ public class ModbusMessageGenertorNode extends InputOutputNode {
 
     @Override
     void process() {
-        if ((getInputWire(0) != null) && (getInputWire(0).hasMessage())) {
-            Message ruleMessage = getInputWire(0).get();
-            if (ruleMessage instanceof JsonMessage
-                    && (Objects.nonNull(((JsonMessage) ruleMessage).getPayload()))) {
-                toModbusMsg((JsonMessage) ruleMessage);
+        for (int index = 0; index < getInputWireCount(); index++) {
+            if ((getInputWire(index) != null) && (getInputWire(index).hasMessage())) {
+                Message ruleMessage = getInputWire(index).get();
+                if (ruleMessage instanceof JsonMessage
+                        && (Objects.nonNull(((JsonMessage) ruleMessage).getPayload()))) {
+                    toModbusMsg((JsonMessage) ruleMessage);
+                }
             }
         }
+
     }
 
     @Override
