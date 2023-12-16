@@ -11,6 +11,9 @@ import org.json.simple.parser.ParseException;
 import com.front.message.JsonMessage;
 import com.front.message.Message;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class RuleEngineNode extends InputOutputNode {
 
     public RuleEngineNode() {
@@ -73,7 +76,14 @@ public class RuleEngineNode extends InputOutputNode {
                     if (recievePayload.get("unitId").toString().equals(target.get("unitId").toString())) {
                         Map<String, Object> data = new HashMap<>();
                         JSONObject outTarget = (JSONObject) database.get(fromdatabaseskey.toString());
-                        Object value = recievePayload.get("value");
+                        // Object value = recievePayload.get("value");
+                        Object ratio = target.get("ratio");
+                        log.info("ratio : {}", ratio);
+                        float value = ((Number) recievePayload.get("value")).floatValue();
+                        log.info("value : {}", value);
+                        value = (float) ((Math.round((value * ((Number) ratio).floatValue()) * 100)) / 100.0);
+                        log.info("value : {}", value);
+
                         outTarget.replace("value", value);
                         data.put(fromdatabaseskey.toString(), outTarget);
                         // System.out.println("---------> Modbus 메시지 입니다.");

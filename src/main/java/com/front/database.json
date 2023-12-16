@@ -4,7 +4,7 @@
             "unitId": 1,
             "register": "input",
             "address": 1,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -18,7 +18,7 @@
             "unitId": 2,
             "register": "input",
             "address": 2,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -32,7 +32,7 @@
             "unitId": 3,
             "register": "input",
             "address": 3,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -46,7 +46,7 @@
             "unitId": 4,
             "register": "input",
             "address": 4,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -60,7 +60,7 @@
             "unitId": 5,
             "register": "input",
             "address": 5,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -74,7 +74,7 @@
             "unitId": 6,
             "register": "input",
             "address": 6,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -88,7 +88,7 @@
             "unitId": 7,
             "register": "input",
             "address": 7,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -102,7 +102,7 @@
             "unitId": 8,
             "register": "input",
             "address": 8,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -116,7 +116,7 @@
             "unitId": 9,
             "register": "input",
             "address": 9,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -130,7 +130,7 @@
             "unitId": 11,
             "register": "input",
             "address": 11,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -144,7 +144,7 @@
             "unitId": 12,
             "register": "input",
             "address": 12,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -158,7 +158,7 @@
             "unitId": 13,
             "register": "input",
             "address": 13,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -172,7 +172,7 @@
             "unitId": 14,
             "register": "input",
             "address": 14,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -186,7 +186,7 @@
             "unitId": 15,
             "register": "input",
             "address": 15,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -200,7 +200,7 @@
             "unitId": 16,
             "register": "input",
             "address": 16,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -214,7 +214,7 @@
             "unitId": 17,
             "register": "input",
             "address": 17,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -228,7 +228,7 @@
             "unitId": 18,
             "register": "input",
             "address": 18,
-            "Ratio": 0.01
+            "ratio": 0.01
         },
         "out": {
             "site": "nhnacademy",
@@ -242,7 +242,7 @@
             "unitId": 21,
             "register": "input",
             "address": 21,
-            "Ratio": 1
+            "ratio": 1
         },
         "out": {
             "site": "nhnacademy",
@@ -256,7 +256,7 @@
             "unitId": 22,
             "register": "input",
             "address": 22,
-            "Ratio": 1
+            "ratio": 1
         },
         "out": {
             "site": "nhnacademy",
@@ -270,7 +270,7 @@
             "unitId": 23,
             "register": "input",
             "address": 23,
-            "Ratio": 1
+            "ratio": 1
         },
         "out": {
             "site": "nhnacademy",

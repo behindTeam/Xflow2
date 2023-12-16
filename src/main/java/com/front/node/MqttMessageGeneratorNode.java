@@ -7,6 +7,9 @@ import com.front.message.JsonMessage;
 import com.front.message.Message;
 import com.front.message.MyMqttMessage;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class MqttMessageGeneratorNode extends InputOutputNode {
 
     public MqttMessageGeneratorNode() {
@@ -55,6 +58,7 @@ public class MqttMessageGeneratorNode extends InputOutputNode {
         mqttPayload.put("time", new Date().getTime());
         mqttPayload.put("value", data.get("value"));
 
+        log.info("MqttOutMessage: {}\n", mqttPayload.toJSONString());
         MyMqttMessage mqttMessage = new MyMqttMessage(id, topic, mqttPayload.toJSONString().getBytes());
         output(mqttMessage);
     }

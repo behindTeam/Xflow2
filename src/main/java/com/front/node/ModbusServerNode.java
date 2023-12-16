@@ -80,7 +80,7 @@ public class ModbusServerNode extends InputOutputNode {
                 object.put("value", unitData.get("value"));
 
                 map.put(((Long) unitData.get("unitId")).intValue(), object);
-                log.info("mapdata : {}", map.toString());
+                // log.info("mapdata : {}", map.toString());
             }
         }
     }
@@ -127,7 +127,8 @@ public class ModbusServerNode extends InputOutputNode {
             int receiveLength = inputStream.read(inputBuffer, 0, inputBuffer.length);
 
             if (receiveLength > 0) {
-                System.out.println(Arrays.toString(Arrays.copyOfRange(inputBuffer, 0, receiveLength)));
+                log.info("modbusRequestToSlave: {}",
+                        Arrays.toString(Arrays.copyOfRange(inputBuffer, 0, receiveLength)));
 
                 if ((receiveLength > 7) && (6 + inputBuffer[5] == receiveLength)) {
                     int unitId = inputBuffer[6];
@@ -140,7 +141,7 @@ public class ModbusServerNode extends InputOutputNode {
                         case 3:
                             int[] holdingregisters = new int[address + 100];
                             int unitAddress = ((Long) map.get(unitId).get("address")).intValue();
-                            int unitValue = ((Double) map.get(unitId).get("value")).intValue();
+                            int unitValue = ((Float) map.get(unitId).get("value")).intValue();
 
                             holdingregisters[unitAddress] = unitValue;
                             if (address + quantity < holdingregisters.length) {
@@ -156,7 +157,7 @@ public class ModbusServerNode extends InputOutputNode {
                 break;
             }
 
-            socket.close();
+            // socket.close();
 
         }
     }

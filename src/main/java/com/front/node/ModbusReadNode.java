@@ -61,7 +61,7 @@ public class ModbusReadNode extends InputOutputNode {
                 byte[] request = SimpleMB.addMBAP(++transactionId, unit,
                         SimpleMB.makeReadHoldingRegistersRequest(address, 1));
 
-                System.out.println("request[]: " + Arrays.toString(request));
+                // System.out.println("request[]: " + Arrays.toString(request));
 
                 outputStream.write(request);
                 outputStream.flush();
@@ -69,8 +69,8 @@ public class ModbusReadNode extends InputOutputNode {
                 int receivedLength = inputStream.read(response, 0, response.length);
 
                 output(new ModbusMessage(response[6], response));
-                System.out.println("response byte[]: " +
-                        Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)) + "\n");
+                // System.out.println("response byte[]: " +
+                // Arrays.toString(Arrays.copyOfRange(response, 0, receivedLength)) + "\n");
             }
         } catch (UnknownHostException e) {
             System.err.println("Unknown host!!");

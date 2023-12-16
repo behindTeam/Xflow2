@@ -14,6 +14,9 @@ import com.front.message.Message;
 import com.front.message.MyMqttMessage;
 import com.front.wire.Wire;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class MqttOutNode extends InputOutputNode {
     Wire inputWire;
     UUID cunnetId;
