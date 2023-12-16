@@ -36,7 +36,7 @@ public class ModbusReadNode extends InputOutputNode {
     @Override
     void preprocess() {
         //
-        setInterval(1000 * 10);
+        setInterval(1000 * 100);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ModbusReadNode extends InputOutputNode {
                 BufferedOutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
                 BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream())) {
             FileReader reader = new FileReader(
-                    "/home/nhnacademy/xflow2(12-11) project/Xflow2/src/main/java/com/front/resources/pdu.json");
+                    "src/main/java/com/front/resources/pdu.json");
 
             JSONObject pduObject = (JSONObject) parser.parse(reader);
             JSONObject unitId = (JSONObject) pduObject.get("unitId");

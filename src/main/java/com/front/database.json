@@ -236,5 +236,47 @@
             "place": "server_room"
         },
         "value": null
+    },
+    "24e124128c067999-co2": {
+        "in": {
+            "unitId": 21,
+            "register": "input",
+            "address": 21,
+            "Ratio": 1
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "class_a"
+        },
+        "value": null
+    },
+    "24e124128c140101-co2": {
+        "in": {
+            "unitId": 22,
+            "register": "input",
+            "address": 22,
+            "Ratio": 1
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "class_b"
+        },
+        "value": null
+    },
+    "24e124126d152590-co2": {
+        "in": {
+            "unitId": 23,
+            "register": "input",
+            "address": 23,
+            "Ratio": 1
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "classroom"
+        },
+        "value": null
     }
 }

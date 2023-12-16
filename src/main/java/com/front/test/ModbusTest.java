@@ -36,19 +36,21 @@ public class ModbusTest {
         Wire wire2 = new BufferedWire();
         Wire wire3 = new BufferedWire();
         Wire wire4 = new BufferedWire();
+        Wire wire5 = new BufferedWire();
 
         reader.connectOutputWire(0, wire1);
         mapperNode.connectInputWire(0, wire1);
         mapperNode.connectOutputWire(0, wire2);
-        // ruleEngine.connectInputWire(0, wire2);
-        // ruleEngine.connectOutputWire(0, wire3);
+        ruleEngine.connectInputWire(0, wire2);
+        ruleEngine.connectInputWire(1, wire5);
+        ruleEngine.connectOutputWire(0, wire3);
         // mqttmessage.connectInputWire(0, wire3);
         // mqttmessage.connectOutputWire(0, wire4);
         // mqttOutNode.connectInputWire(0, wire4);
 
         reader.start();
         mapperNode.start();
-        // ruleEngine.start();
+        ruleEngine.start();
         // mqttmessage.start();
         // mqttOutNode.start();
     }

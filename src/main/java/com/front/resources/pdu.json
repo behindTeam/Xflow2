@@ -67,6 +67,18 @@
         "18": {
             "address": 18,
             "type": "humidity"
+        },
+        "21": {
+            "address": 21,
+            "type": "co2"
+        },
+        "22": {
+            "address": 22,
+            "type": "co2"
+        },
+        "23": {
+            "address": 23,
+            "type": "co2"
         }
     }
 }
