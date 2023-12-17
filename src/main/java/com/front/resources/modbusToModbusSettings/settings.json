@@ -12,7 +12,7 @@
         },
         {
             "id": "7",
-            "type": "messageParsing",
+            "type": "ModBusMapperNode",
             "name": "function 4",
             "outputs": 1,
             "wires": [
@@ -52,10 +52,10 @@
         {
             "id": "s1",
             "type": "modbus-client",
-            "name": "11502",
+            "name": "502",
             "clienttype": "tcp",
-            "tcpHost": "192.168.71.111",
-            "tcpPort": "11502",
+            "tcpHost": "127.0.0.1",
+            "tcpPort": "502",
             "unit_id": "1"
         }
     ],

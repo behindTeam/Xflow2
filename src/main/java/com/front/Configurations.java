@@ -47,7 +47,7 @@ public class Configurations {
 
     public static void main(String[] args) throws FileNotFoundException, MqttException {
         JSONParser parser = new JSONParser(); // JSON 파일 읽기
-        Reader reader = new FileReader("src/main/java/com/front/settings.json");
+        Reader reader = new FileReader("src/main/java/com/front/resources/modbusToModbusSettings/settings.json");
         configurationArgs = args;
 
         try {
@@ -100,7 +100,7 @@ public class Configurations {
                 nodeName = "com.front.node.MessageParsingNode";
             } else if (nodeType.equals("ModBusMapperNode")) {
                 nodeName = "com.front.node.ModBusMapperNode";
-            } else if (nodeType.equals("ModbusMasterNode")) {
+            } else if (nodeType.equals("modbus-master")) {
                 nodeName = "com.front.node.ModbusMasterNode";
             } else if (nodeType.equals("ModbusMessageGenertorNode")) {
                 nodeName = "com.front.node.ModbusMessageGenertorNode";
