@@ -61,8 +61,6 @@ public class RuleEngineNode extends InputOutputNode {
                     Object value = ((HashMap<?, ?>) (payload.get(key))).get("value");
                     target.replace("value", value);
                     data.put(key, target);
-                    // System.out.println("---------> Mqtt 메시지 입니다.");
-                    // System.out.println(new JSONObject(data));
                     output(new JsonMessage(new JSONObject(data)));
                 } else if (key.equals("payload")) {
                     JSONObject targetIn = (JSONObject) database.get(fromdatabaseskey.toString());
@@ -71,7 +69,6 @@ public class RuleEngineNode extends InputOutputNode {
                     if (recievePayload.get("unitId").toString().equals(target.get("unitId").toString())) {
                         Map<String, Object> data = new HashMap<>();
                         JSONObject outTarget = (JSONObject) database.get(fromdatabaseskey.toString());
-                        // Object value = recievePayload.get("value");
                         Object ratio = target.get("ratio");
                         log.info("ratio : {}", ratio);
                         float value = ((Number) recievePayload.get("value")).floatValue();
@@ -81,8 +78,6 @@ public class RuleEngineNode extends InputOutputNode {
 
                         outTarget.replace("value", value);
                         data.put(fromdatabaseskey.toString(), outTarget);
-                        // System.out.println("---------> Modbus 메시지 입니다.");
-                        // System.out.println(new JSONObject(data));
                         output(new JsonMessage(new JSONObject(data)));
                     }
                 }
@@ -93,25 +88,4 @@ public class RuleEngineNode extends InputOutputNode {
         }
 
     }
-
-    public static void main(String[] args) {
-        RuleEngineNode node = new RuleEngineNode();
-        // --> MqttMessageParsing
-        Map<String, Object> data1 = new HashMap<>();
-        data1.put("24e124785c389010-temperature", 26);
-        JSONObject data2 = new JSONObject(data1);
-        JsonMessage messageMqtt = new JsonMessage(data2);
-        node.msgParser(messageMqtt);
-
-        // Map<String,Object> data = new HashMap<>();
-        // Map<String,Object> payload = new HashMap<>();
-        JSONObject data = new JSONObject();
-        JSONObject payload = new JSONObject();
-        data.put("unitId", 1);
-        data.put("value", 66);
-        payload.put("payload", data);
-        JsonMessage message = new JsonMessage(new JSONObject(payload));
-        node.msgParser(message);
-    }
-
 }

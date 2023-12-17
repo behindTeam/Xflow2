@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +40,8 @@ public class Configurations {
     private static Map<Node, JSONArray> map = new HashMap<>();
     private static Map<String, Node> nodeMap = new HashMap<>();
     private static Map<Node, String> brokerMap = new HashMap<>();
+    private static Map<Node, String> socketMap = new HashMap<>();
+
     private static JSONArray jsonArray;
     private static String[] configurationArgs;
 
@@ -72,7 +76,7 @@ public class Configurations {
             // 클라이언트 동적 세팅
             for (Node node : brokerMap.keySet()) {
                 String brokerId = brokerMap.get(node);
-                settingClient(node, brokerId);
+                settingIMqttClient(node, brokerId);
             }
 
             // 세팅 완료 후 쓰레드 시작
@@ -94,8 +98,23 @@ public class Configurations {
                 nodeName = "com.front.node.MqttOutNode";
             } else if (nodeType.equals("messageParsing")) {
                 nodeName = "com.front.node.MessageParsingNode";
+            } else if (nodeType.equals("ModBusMapperNode")) {
+                nodeName = "com.front.node.ModBusMapperNode";
+            } else if (nodeType.equals("ModbusMasterNode")) {
+                nodeName = "com.front.node.ModbusMasterNode";
+            } else if (nodeType.equals("ModbusMessageGenertorNode")) {
+                nodeName = "com.front.node.ModbusMessageGenertorNode";
+            } else if (nodeType.equals("ModbusServerNode")) {
+                nodeName = "com.front.node.ModbusServerNode";
+            } else if (nodeType.equals("MqttMessageGeneratorNode")) {
+                nodeName = "com.front.node.MqttMessageGeneratorNode";
+            } else if (nodeType.equals("RuleEngineNode")) {
+                nodeName = "com.front.node.RuleEngineNode";
             } else if (nodeType.equals("mqtt-broker")) {
-                createClient((String) jsonObject.get("broker"), (String) jsonObject.get("port"),
+                createIMqttClient((String) jsonObject.get("broker"), (String) jsonObject.get("port"),
+                        (String) jsonObject.get("id"));
+            } else if (nodeType.equals("modbus-client")) {
+                createSocket((String) jsonObject.get("tcpHost"), (String) jsonObject.get("tcpPort"),
                         (String) jsonObject.get("id"));
             }
             if (Objects.isNull(nodeName)) {
@@ -113,6 +132,9 @@ public class Configurations {
             }
             if (jsonObject.containsKey("broker")) {
                 brokerMap.put(node, (String) jsonObject.get("broker"));
+            }
+            if (jsonObject.containsKey("server")) {
+                socketMap.put(node, (String) jsonObject.get("server"));
             }
 
             nodeMap.put((jsonObject.get("id")).toString(), node);
@@ -139,6 +161,12 @@ public class Configurations {
                 | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -171,19 +199,25 @@ public class Configurations {
 
     // 클라이언트를 생성해주는 메서드
     // Todo: port번호도 가져와야 함
-    private static void createClient(String uri, String port, String id) throws MqttException {
+    private static void createIMqttClient(String uri, String port, String id) throws MqttException {
         if (uri.equals("mosquitto")) {
             uri = "localhost";
         }
         IMqttClient serverClient = new MqttClient("tcp://" + uri + ":" + port, id);
-        ClientList.getClientList().addClient(id, serverClient);
+        IMqttClientList.getClientList().addClient(id, serverClient);
     }
 
-    private static void settingClient(Node node, String id) {
+    private static void createSocket(String uri, String port, String id)
+            throws MqttException, NumberFormatException, UnknownHostException, IOException {
+        Socket socket = new Socket(uri, Integer.valueOf(port));
+        SocketList.getClientList().addClient(id, socket);
+    }
+
+    private static void settingIMqttClient(Node node, String id) {
         if (node instanceof MqttInNode) {
-            ((MqttInNode) node).setClient(ClientList.getClientList().getClient(id));
+            ((MqttInNode) node).setClient(IMqttClientList.getClientList().getClient(id));
         } else if (node instanceof MqttOutNode) {
-            ((MqttOutNode) node).setClient(ClientList.getClientList().getClient(id));
+            ((MqttOutNode) node).setClient(IMqttClientList.getClientList().getClient(id));
         }
     }
 
@@ -244,20 +278,3 @@ public class Configurations {
         return object;
     }
 }
-
-// BiConsumer<Node, Node> setConnect = {(input, output) -> new Wire wire = new
-// Wire()
-
-// Method connectOutputWireMethod =
-// clazz.getDeclaredMethod("connectOutputWire"); // 메소드 호출
-
-// if (outputWire() != null) {
-// output.connectInputWire();
-// }
-// input.connectOutputWire();
-// }
-
-// Class<?> clazz1 = Class.forName(wireName);
-// Object wire = clazz1.getDeclaredConstructor().newInstance();
-
-// connectOutputWireMethod.invoke(mqttInNode, 0, wire);

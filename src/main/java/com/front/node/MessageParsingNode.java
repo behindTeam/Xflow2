@@ -59,7 +59,6 @@ public class MessageParsingNode extends InputOutputNode {
         //
     }
 
-    // Todo: messageParsing메소드가 똑같은 결과를 세번 output하는 현상 수정할 것
     public void messageParsing(MyMqttMessage myMqttMessage) {
         try {
             JSONObject payload = (JSONObject) parser.parse(new String(myMqttMessage.getPayload()));

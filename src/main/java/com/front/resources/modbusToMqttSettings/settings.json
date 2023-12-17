@@ -1,22 +1,17 @@
 [
     [
         {
-            "id": "1",
-            "type": "mqtt in",
-            "name": "",
-            "topic": "application/#",
-            "qos": "2",
-            "datatype": "auto-detect",
-            "broker": "b1",
-            "inputs": 0,
+            "id": "6",
+            "type": "modbus-master",
+            "server": "s1",
             "wires": [
                 [
-                    "2"
+                    "7"
                 ]
             ]
         },
         {
-            "id": "2",
+            "id": "7",
             "type": "messageParsing",
             "name": "function 4",
             "outputs": 1,
@@ -58,12 +53,13 @@
             "wires": []
         },
         {
-            "id": "b1",
-            "type": "mqtt-broker",
-            "name": "NHN Academy EMS",
-            "broker": "ems.nhnacademy.com",
-            "port": "1883",
-            "clientid": ""
+            "id": "s1",
+            "type": "modbus-client",
+            "name": "11502",
+            "clienttype": "tcp",
+            "tcpHost": "192.168.71.111",
+            "tcpPort": "11502",
+            "unit_id": "1"
         },
         {
             "id": "b2",

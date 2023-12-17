@@ -33,28 +33,25 @@
             "outputs": 1,
             "wires": [
                 [
-                    "4"
+                    "9"
                 ]
             ]
         },
         {
-            "id": "4",
-            "type": "MqttMessageGeneratorNode",
+            "id": "9",
+            "type": "ModbusMessageGenertorNode",
             "name": "",
             "outputs": 1,
             "wires": [
                 [
-                    "5"
+                    "10"
                 ]
             ]
         },
         {
-            "id": "5",
-            "type": "mqtt out",
+            "id": "10",
+            "type": "ModbusServerNode",
             "name": "",
-            "topic": "",
-            "qos": "",
-            "broker": "b2",
             "wires": []
         },
         {
@@ -62,14 +59,6 @@
             "type": "mqtt-broker",
             "name": "NHN Academy EMS",
             "broker": "ems.nhnacademy.com",
-            "port": "1883",
-            "clientid": ""
-        },
-        {
-            "id": "b2",
-            "type": "mqtt-broker",
-            "name": "localhost",
-            "broker": "mosquitto",
             "port": "1883",
             "clientid": ""
         }

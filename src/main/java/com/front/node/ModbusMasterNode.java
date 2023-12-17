@@ -17,20 +17,25 @@ import com.front.SimpleMB;
 import com.front.message.ModbusMessage;
 import com.front.wire.Wire;
 
-public class ModbusReadNode extends InputOutputNode {
+public class ModbusMasterNode extends InputOutputNode {
     int port;
     JSONParser parser = new JSONParser();
+    Socket socket = null;
 
-    public ModbusReadNode() {
+    public ModbusMasterNode() {
         this(1, 1);
     }
 
-    public ModbusReadNode(int inCount, int outCount) {
+    public ModbusMasterNode(int inCount, int outCount) {
         super(inCount, outCount);
     }
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public void setClient(Socket socket) {
+        this.socket = socket;
     }
 
     @Override
