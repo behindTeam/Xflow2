@@ -57,8 +57,8 @@
             "type": "modbus-client",
             "name": "11502",
             "clienttype": "tcp",
-            "tcpHost": "192.168.71.111",
-            "tcpPort": "11502",
+            "tcpHost": "127.0.0.1",
+            "tcpPort": "502",
             "unit_id": "1"
         },
         {
