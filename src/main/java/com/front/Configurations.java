@@ -42,7 +42,6 @@ public class Configurations {
     private static Map<String, Node> nodeMap = new HashMap<>();
     private static Map<Node, String> brokerMap = new HashMap<>();
     private static Map<Node, String> socketMap = new HashMap<>();
-
     private static JSONArray jsonArray;
     private static String[] configurationArgs;
 
@@ -235,15 +234,15 @@ public class Configurations {
 
     // string ars[]의 내용을 적용시켜주는 메서드
     public static JSONObject processCommandLine(String[] args) throws org.json.simple.parser.ParseException {
-        String usage = "scurl [option] url";
-        String path = "src/main/java/com/front/resources/settings.json";
+        String usage = "";
+        String path = "src/main/java/com/front/resources/mqttToMqttSettings.json";
 
         Options cliOptions = new Options();
         cliOptions.addOption(new Option("applicationName", "an", true,
                 "프로그램 옵션으로 Application Name을 줄 수 있으며, application name이 주어질 경우 해당 메시지만 수신하도록 한다."));
         cliOptions.addOption(new Option("s", true, "허용 가능한 센서 종류를 지정할 수 있다."));
         cliOptions.addOption(
-                new Option("c", false, "설정 파일과 command line argument라 함께 주어질 경우 command line argument가 우선된다."));
+                new Option("c", true, "설정 파일과 command line argument라 함께 주어질 경우 command line argument가 우선된다."));
         cliOptions.addOption(new Option("h", "help", false, "사용법, 옵션을 보여줍니다."));
 
         HelpFormatter helpFormatter = new HelpFormatter();

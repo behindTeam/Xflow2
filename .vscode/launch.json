@@ -1,0 +1,73 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Configurations",
+            "request": "launch",
+            "mainClass": "com.front.Configurations",
+            "projectName": "iot_gateway",
+            "args": [
+                "-c"
+            ]
+        },
+        {
+            "type": "java",
+            "name": "MqttMessageGeneratorNode",
+            "request": "launch",
+            "mainClass": "com.front.node.MqttMessageGeneratorNode",
+            "projectName": "iot_gateway"
+        },
+        {
+            "type": "java",
+            "name": "ModbusServerNodeTest",
+            "request": "launch",
+            "mainClass": "com.front.test.ModbusServerNodeTest",
+            "projectName": "iot_gateway"
+        },
+        {
+            "type": "java",
+            "name": "ModbusToModbusTest",
+            "request": "launch",
+            "mainClass": "com.front.test.ModbusToModbusTest",
+            "projectName": "iot_gateway"
+        },
+        {
+            "type": "java",
+            "name": "ModbusToRuleTest",
+            "request": "launch",
+            "mainClass": "com.front.test.ModbusToRuleTest",
+            "projectName": "iot_gateway"
+        },
+        {
+            "type": "java",
+            "name": "ModbustoMqttTest",
+            "request": "launch",
+            "mainClass": "com.front.test.ModbustoMqttTest",
+            "projectName": "iot_gateway"
+        },
+        {
+            "type": "java",
+            "name": "MqtttoModbusFlowTest",
+            "request": "launch",
+            "mainClass": "com.front.test.MqtttoModbusFlowTest",
+            "projectName": "iot_gateway"
+        },
+        {
+            "type": "java",
+            "name": "MqtttoMqttFlowTest",
+            "request": "launch",
+            "mainClass": "com.front.test.MqtttoMqttFlowTest",
+            "projectName": "iot_gateway"
+        }
+    ]
+}
