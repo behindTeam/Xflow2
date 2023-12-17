@@ -24,6 +24,8 @@ import com.front.node.MqttOutNode;
 import com.front.node.Node;
 import com.front.wire.Wire;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -36,6 +38,8 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.json.simple.JSONArray;
 
 //세팅을 적용시키는 클래스, main문을 포함한다.
+
+@Slf4j
 public class Configurations {
     static int count = 0;
     private static Map<Node, JSONArray> map = new HashMap<>();
@@ -60,6 +64,7 @@ public class Configurations {
             for (Object obj : nodeList) {
                 JSONObject jsonObject = (JSONObject) obj;
                 createNodeInstance(jsonObject, jsonObject.get("type").toString());
+                log.info("create node: {}", jsonObject.get("type"));
             }
 
             // 노드 동적 연결
@@ -84,9 +89,16 @@ public class Configurations {
                 settingSocket(node, socketId);
             }
 
+            try {
+                Thread.currentThread().sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             // 세팅 완료 후 쓰레드 시작
             for (String id : nodeMap.keySet()) {
                 ((InputOutputNode) nodeMap.get(id)).start();
+                log.info("node {} started", id);
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();
