@@ -1,5 +1,18 @@
 {
-    "deviceEui": "24e124128c067999",
-    "applicationName": "NHNAcademyEMS",
-    "sensor": "hummidity,temperature,co2"
+    "temperature": {
+        "byte": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            6,
+            1,
+            3,
+            0,
+            101,
+            0,
+            22
+        ]
+    }
 }

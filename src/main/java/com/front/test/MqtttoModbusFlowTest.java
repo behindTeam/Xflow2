@@ -13,14 +13,14 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.front.node.MessageParsingNode;
+import com.front.node.ModbusMessageGenertorNode;
+import com.front.node.ModbusServerNode;
 import com.front.node.MqttInNode;
-import com.front.node.MqttMessageGeneratorNode;
-import com.front.node.MqttOutNode;
 import com.front.node.RuleEngineNode;
 import com.front.wire.BufferedWire;
 import com.front.wire.Wire;
 
-public class MqtttoMqttFlowTest {
+public class MqtttoModbusFlowTest {
     public static void main(String[] args) {
         JSONParser parser = new JSONParser();
         JSONArray jsonArray;
@@ -40,8 +40,8 @@ public class MqtttoMqttFlowTest {
         MqttInNode mqttInNode = new MqttInNode();
         MessageParsingNode messageParsingNode = new MessageParsingNode();
         RuleEngineNode ruleEngineNode = new RuleEngineNode();
-        MqttMessageGeneratorNode mqttMessageGeneratorNode = new MqttMessageGeneratorNode();
-        MqttOutNode mqttOutNode = new MqttOutNode();
+        ModbusMessageGenertorNode modbusMessageGenertorNode = new ModbusMessageGenertorNode();
+        ModbusServerNode modbusServerNode = new ModbusServerNode();
         IMqttClient serverClient = null;
         IMqttClient hostClient = null;
 
@@ -55,24 +55,25 @@ public class MqtttoMqttFlowTest {
         mqttInNode.setClient(serverClient);
         mqttInNode.setTopic("application/#");
         messageParsingNode.configureSettings(settings);
-        mqttOutNode.setClient(hostClient);
 
         mqttInNode.connectOutputWire(0, wire1);
         messageParsingNode.connectInputWire(0, wire1);
         messageParsingNode.connectOutputWire(0, wire2);
-        ruleEngineNode.connectInputWire(0, wire2);
+
         Wire wire5 = new BufferedWire();
+
+        ruleEngineNode.connectInputWire(0, wire2);
         ruleEngineNode.connectInputWire(1, wire5);
         ruleEngineNode.connectOutputWire(0, wire3);
-        mqttMessageGeneratorNode.connectInputWire(0, wire3);
-        mqttMessageGeneratorNode.connectOutputWire(0, wire4);
-        mqttOutNode.connectInputWire(0, wire4);
+        modbusMessageGenertorNode.connectInputWire(0, wire3);
+        modbusMessageGenertorNode.connectOutputWire(0, wire4);
+        modbusServerNode.connectInputWire(0, wire4);
 
         mqttInNode.start();
         messageParsingNode.start();
         ruleEngineNode.start();
-        mqttMessageGeneratorNode.start();
-        mqttOutNode.start();
+        modbusMessageGenertorNode.start();
+        modbusServerNode.start();
 
     }
 }

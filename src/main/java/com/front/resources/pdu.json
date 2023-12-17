@@ -1,0 +1,84 @@
+{
+    "unitId": {
+        "1": {
+            "address": 1,
+            "type": "temperature"
+        },
+        "2": {
+            "address": 2,
+            "type": "temperature"
+        },
+        "3": {
+            "address": 3,
+            "type": "temperature"
+        },
+        "4": {
+            "address": 4,
+            "type": "temperature"
+        },
+        "5": {
+            "address": 5,
+            "type": "temperature"
+        },
+        "6": {
+            "address": 6,
+            "type": "temperature"
+        },
+        "7": {
+            "address": 7,
+            "type": "temperature"
+        },
+        "8": {
+            "address": 8,
+            "type": "temperature"
+        },
+        "9": {
+            "address": 9,
+            "type": "temperature"
+        },
+        "11": {
+            "address": 11,
+            "type": "humidity"
+        },
+        "12": {
+            "address": 12,
+            "type": "humidity"
+        },
+        "13": {
+            "address": 13,
+            "type": "humidity"
+        },
+        "14": {
+            "address": 14,
+            "type": "humidity"
+        },
+        "15": {
+            "address": 15,
+            "type": "humidity"
+        },
+        "16": {
+            "address": 16,
+            "type": "humidity"
+        },
+        "17": {
+            "address": 17,
+            "type": "humidity"
+        },
+        "18": {
+            "address": 18,
+            "type": "humidity"
+        },
+        "21": {
+            "address": 21,
+            "type": "co2"
+        },
+        "22": {
+            "address": 22,
+            "type": "co2"
+        },
+        "23": {
+            "address": 23,
+            "type": "co2"
+        }
+    }
+}

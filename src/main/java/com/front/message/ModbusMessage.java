@@ -1,25 +1,26 @@
 package com.front.message;
 
+import java.util.Arrays;
+
 public class ModbusMessage extends Message {
-    byte address;
-    byte functionCode;
+    byte[] adu;
+    byte unitId;
 
-    public ModbusMessage(byte address, byte functionCode) {
-        this.address = address;
-        this.functionCode = functionCode;
+    public ModbusMessage(byte unitId, byte[] adu) {
+        this.adu = Arrays.copyOf(adu, adu.length);
+        this.unitId = unitId;
     }
 
-    public byte getAddress() {
-        return address;
+    public byte getUnitId() {
+        return unitId;
     }
 
-    public byte getFunctionCode() {
-        return functionCode;
+    public byte[] getAdu() {
+        return adu;
     }
 
     @Override
     public String toString() {
-        return "ModbusMessage [address=" + address + ", functionCode=" + functionCode + "]";
+        return new String(adu) + Arrays.toString(adu);
     }
-
 }

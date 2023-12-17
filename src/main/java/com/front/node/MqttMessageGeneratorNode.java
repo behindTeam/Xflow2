@@ -7,6 +7,9 @@ import com.front.message.JsonMessage;
 import com.front.message.Message;
 import com.front.message.MyMqttMessage;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class MqttMessageGeneratorNode extends InputOutputNode {
 
     public MqttMessageGeneratorNode() {
@@ -24,13 +27,16 @@ public class MqttMessageGeneratorNode extends InputOutputNode {
 
     @Override
     void process() {
-        if ((getInputWire(0) != null) && (getInputWire(0).hasMessage())) {
-            Message ruleMessage = getInputWire(0).get();
-            if (ruleMessage instanceof JsonMessage
-                    && (Objects.nonNull(((JsonMessage) ruleMessage).getPayload()))) {
-                toMqttMsg((JsonMessage) ruleMessage);
+        for (int index = 0; index < getInputWireCount(); index++) {
+            if ((getInputWire(index) != null) && (getInputWire(index).hasMessage())) {
+                Message ruleMessage = getInputWire(index).get();
+                if (ruleMessage instanceof JsonMessage
+                        && (Objects.nonNull(((JsonMessage) ruleMessage).getPayload()))) {
+                    toMqttMsg((JsonMessage) ruleMessage);
+                }
             }
         }
+
     }
 
     @Override
@@ -55,6 +61,7 @@ public class MqttMessageGeneratorNode extends InputOutputNode {
         mqttPayload.put("time", new Date().getTime());
         mqttPayload.put("value", data.get("value"));
 
+        log.info("MqttOutMessage: {}\n", mqttPayload.toJSONString());
         MyMqttMessage mqttMessage = new MyMqttMessage(id, topic, mqttPayload.toJSONString().getBytes());
         output(mqttMessage);
     }
