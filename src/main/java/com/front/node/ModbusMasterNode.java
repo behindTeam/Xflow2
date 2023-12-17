@@ -41,14 +41,15 @@ public class ModbusMasterNode extends InputOutputNode {
     @Override
     void preprocess() {
         //
-        setInterval(1000 * 100);
+        setInterval(1000 * 10);
     }
 
     @Override
     void process() {
-        try (Socket socket = new Socket("127.0.0.1", 502);
-                BufferedOutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
-                BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream())) {
+        try {
+            Socket socket = this.socket;
+            BufferedOutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
+            BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream());
             FileReader reader = new FileReader(
                     "src/main/java/com/front/resources/pdu.json");
 

@@ -18,6 +18,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.front.node.InputOutputNode;
+import com.front.node.ModbusMasterNode;
 import com.front.node.MqttInNode;
 import com.front.node.MqttOutNode;
 import com.front.node.Node;
@@ -77,6 +78,11 @@ public class Configurations {
             for (Node node : brokerMap.keySet()) {
                 String brokerId = brokerMap.get(node);
                 settingIMqttClient(node, brokerId);
+            }
+
+            for (Node node : socketMap.keySet()) {
+                String socketId = socketMap.get(node);
+                settingSocket(node, socketId);
             }
 
             // 세팅 완료 후 쓰레드 시작
@@ -218,6 +224,12 @@ public class Configurations {
             ((MqttInNode) node).setClient(IMqttClientList.getClientList().getClient(id));
         } else if (node instanceof MqttOutNode) {
             ((MqttOutNode) node).setClient(IMqttClientList.getClientList().getClient(id));
+        }
+    }
+
+    private static void settingSocket(Node node, String id) {
+        if (node instanceof ModbusMasterNode) {
+            ((ModbusMasterNode) node).setClient(SocketList.getClientList().getClient(id));
         }
     }
 
