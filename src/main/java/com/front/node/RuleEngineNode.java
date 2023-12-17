@@ -11,26 +11,36 @@ import org.json.simple.parser.ParseException;
 import com.front.message.JsonMessage;
 import com.front.message.Message;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
+/**
+ * RuleEngineNode 클래스입니다. {@code InputOutputNode}를 상속합니다.
+ */
 public class RuleEngineNode extends InputOutputNode {
 
+    /**
+     * 기본 생성자. 입력 및 출력 와이어 수가 1로 설정됩니다.
+     */
     public RuleEngineNode() {
         this(1, 1);
     }
 
+    /**
+     * 입력 및 출력 와이어 수를 지정하여 노드를 생성합니다.
+     *
+     * @param inCount  입력 와이어 수.
+     * @param outCount 출력 와이어 수.
+     */
     public RuleEngineNode(int inCount, int outCount) {
         super(inCount, outCount);
     }
 
     @Override
     void preprocess() {
-        //
+        // 전처리 작업
     }
 
     @Override
     void process() {
+        // 입력 와이어에서 메시지를 받아와 RuleEngine 처리
         for (int index = 0; index < getInputWireCount(); index++) {
             if ((getInputWire(index) != null) && (getInputWire(index).hasMessage())) {
                 Message myMessage = getInputWire(index).get();
@@ -43,9 +53,14 @@ public class RuleEngineNode extends InputOutputNode {
 
     @Override
     void postprocess() {
-        //
+        // 후처리 작업
     }
 
+    /**
+     * JSON 형식의 메시지를 받아와 RuleEngine 처리를 수행하고 결과를 출력합니다.
+     *
+     * @param myMessage JSON 형식의 메시지
+     */
     private void msgParser(JsonMessage myMessage) {
         JSONObject payload = myMessage.getPayload();
         JSONParser parser = new JSONParser();
@@ -54,35 +69,28 @@ public class RuleEngineNode extends InputOutputNode {
         try {
             JSONObject database = (JSONObject) parser.parse(new FileReader(
                     "src/main/java/com/front/resources/database.json"));
-            for (Object fromdatabaseskey : database.keySet()) {
-                if (fromdatabaseskey.toString().equals(key)) {
+
+            for (Object fromDatabasesKey : database.keySet()) {
+                if (fromDatabasesKey.toString().equals(key)) {
                     Map<String, Object> data = new HashMap<>();
                     JSONObject target = (JSONObject) database.get(key);
                     Object value = ((HashMap<?, ?>) (payload.get(key))).get("value");
                     target.replace("value", value);
                     data.put(key, target);
-                    // System.out.println("---------> Mqtt 메시지 입니다.");
-                    // System.out.println(new JSONObject(data));
                     output(new JsonMessage(new JSONObject(data)));
                 } else if (key.equals("payload")) {
-                    JSONObject targetIn = (JSONObject) database.get(fromdatabaseskey.toString());
+                    JSONObject targetIn = (JSONObject) database.get(fromDatabasesKey.toString());
                     JSONObject target = (JSONObject) targetIn.get("in");
-                    JSONObject recievePayload = (JSONObject) payload.get("payload");
-                    if (recievePayload.get("unitId").toString().equals(target.get("unitId").toString())) {
-                        Map<String, Object> data = new HashMap<>();
-                        JSONObject outTarget = (JSONObject) database.get(fromdatabaseskey.toString());
-                        // Object value = recievePayload.get("value");
-                        Object ratio = target.get("ratio");
-                        log.info("ratio : {}", ratio);
-                        float value = ((Number) recievePayload.get("value")).floatValue();
-                        log.info("value : {}", value);
-                        value = (float) ((Math.round((value * ((Number) ratio).floatValue()) * 100)) / 100.0);
-                        log.info("value : {}", value);
+                    JSONObject receivePayload = (JSONObject) payload.get("payload");
 
+                    if (receivePayload.get("unitId").toString().equals(target.get("unitId").toString())) {
+                        Map<String, Object> data = new HashMap<>();
+                        JSONObject outTarget = (JSONObject) database.get(fromDatabasesKey.toString());
+                        Object ratio = target.get("ratio");
+                        float value = ((Number) receivePayload.get("value")).floatValue();
+                        value = (float) ((Math.round((value * ((Number) ratio).floatValue()) * 100)) / 100.0);
                         outTarget.replace("value", value);
-                        data.put(fromdatabaseskey.toString(), outTarget);
-                        // System.out.println("---------> Modbus 메시지 입니다.");
-                        // System.out.println(new JSONObject(data));
+                        data.put(fromDatabasesKey.toString(), outTarget);
                         output(new JsonMessage(new JSONObject(data)));
                     }
                 }
@@ -91,27 +99,5 @@ public class RuleEngineNode extends InputOutputNode {
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-
     }
-
-    public static void main(String[] args) {
-        RuleEngineNode node = new RuleEngineNode();
-        // --> MqttMessageParsing
-        Map<String, Object> data1 = new HashMap<>();
-        data1.put("24e124785c389010-temperature", 26);
-        JSONObject data2 = new JSONObject(data1);
-        JsonMessage messageMqtt = new JsonMessage(data2);
-        node.msgParser(messageMqtt);
-
-        // Map<String,Object> data = new HashMap<>();
-        // Map<String,Object> payload = new HashMap<>();
-        JSONObject data = new JSONObject();
-        JSONObject payload = new JSONObject();
-        data.put("unitId", 1);
-        data.put("value", 66);
-        payload.put("payload", data);
-        JsonMessage message = new JsonMessage(new JSONObject(payload));
-        node.msgParser(message);
-    }
-
 }
