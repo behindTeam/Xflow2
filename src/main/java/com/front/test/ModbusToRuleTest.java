@@ -1,5 +1,8 @@
 package com.front.test;
 
+import java.io.IOException;
+import java.net.Socket;
+
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -18,6 +21,14 @@ public class ModbusToRuleTest {
         ModbusMasterNode reader = new ModbusMasterNode();
         ModBusMapperNode mapperNode = new ModBusMapperNode();
         RuleEngineNode ruleEngine = new RuleEngineNode();
+
+        Socket socket = null;
+        try {
+            socket = new Socket("127.0.0.1", 502);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        reader.setClient(socket);
 
         Wire wire1 = new BufferedWire();
         Wire wire2 = new BufferedWire();
