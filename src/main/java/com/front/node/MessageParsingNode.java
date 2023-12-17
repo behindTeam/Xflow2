@@ -1,28 +1,44 @@
 package com.front.node;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import com.front.message.JsonMessage;
 import com.front.message.Message;
 import com.front.message.MyMqttMessage;
 import com.front.wire.Wire;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class MessageParsingNode extends InputOutputNode {
     Wire settingWire;
     Wire mqttWire;
     Message message;
 
-    String ApplicationName;
+    String applicationName;
+
     String[] sensor;
     JSONParser parser;
     JSONObject settings;
 
+    /**
+     * 기본 생성자로, 입력 및 출력 와이어 개수를 기본값으로 설정
+     */
     public MessageParsingNode() {
         this(1, 1);
     }
 
+    /**
+     * 입력 및 출력 와이어 개수를 지정하여 생성하는 생성자
+     * 
+     * @param inCount  입력 와이어 개수
+     * @param outCount 출력 와이어 개수
+     */
     public MessageParsingNode(int inCount, int outCount) {
         super(inCount, outCount);
         parser = new JSONParser();
@@ -37,18 +53,26 @@ public class MessageParsingNode extends InputOutputNode {
         //
     }
 
+    /**
+     * 메시지 처리 메서드로, MQTT 메시지를 파싱하여 필요한 정보를 추출하고 출력 메시지를 생성
+     */
     @Override
     void process() {
-        if ((getInputWire(0) != null) && (getInputWire(0).hasMessage())) {
-            Message myMqttMessage = getInputWire(0).get();
-            if (myMqttMessage instanceof MyMqttMessage) {
-                if (Objects.nonNull(((MyMqttMessage) myMqttMessage).getPayload())) {
+        for (int index = 0; index < getInputWireCount(); index++) {
+            if ((getInputWire(index) != null) && (getInputWire(index).hasMessage())) {
+                Message myMqttMessage = getInputWire(index).get();
+                if (myMqttMessage instanceof MyMqttMessage
+                        && (Objects.nonNull(((MyMqttMessage) myMqttMessage).getPayload()))) {
                     messageParsing((MyMqttMessage) myMqttMessage);
+
                 }
             }
         }
     }
 
+    /**
+     * 후처리 메서드 (구현 x)
+     */
     @Override
     void postprocess() {
         //
@@ -94,20 +118,14 @@ public class MessageParsingNode extends InputOutputNode {
                     if (deviceInfo.get("applicationName").equals(settings.get("applicationName"))) {
                         String sensor = (String) settings.get("sensor");
                         if (settings.get("sensor") != null) {
-                            String[] sensors = sensor.split(",");
-
-                            if (sensor.contains(sensorType.toString()))
-                                for (String s : sensors) {
-                                    JSONObject sensorData = new JSONObject();
-                                    sensorData.put("time", currentTime);
-                                    sensorData.put("value", object.get(sensorType));
-
-                                    JSONObject newMessage = new JSONObject();
-                                    newMessage.put("payload", sensorData);
-                                    output(new MyMqttMessage(myMqttMessage.getSenderId(),
-                                            commonTopic + "/e/" + sensorType.toString(),
-                                            newMessage.toJSONString().getBytes()));
-                                }
+                            if (sensor.contains(sensorType.toString())) {
+                                Map<String, Object> data = new HashMap<>();
+                                Map<String, Object> outMessage = new HashMap<>();
+                                data.put("value", object.get(sensorType));
+                                outMessage.put(deviceInfo.get("devEui") + "-" + sensorType.toString(), data);
+                                output(new JsonMessage(new JSONObject(outMessage)));
+                                log.info(outMessage.toString());
+                            }
                         }
                     }
                 }

@@ -1,0 +1,282 @@
+{
+    "24e124128c067999-temperature": {
+        "in": {
+            "unitId": 1,
+            "register": "input",
+            "address": 1,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "class_a"
+        },
+        "value": null
+    },
+    "24e124785c389818-temperature": {
+        "in": {
+            "unitId": 2,
+            "register": "input",
+            "address": 2,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "class_a"
+        },
+        "value": null
+    },
+    "24e124126d152590-temperature": {
+        "in": {
+            "unitId": 3,
+            "register": "input",
+            "address": 3,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "classroom"
+        },
+        "value": null
+    },
+    "24e124128c140101-temperature": {
+        "in": {
+            "unitId": 4,
+            "register": "input",
+            "address": 4,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "class_b"
+        },
+        "value": null
+    },
+    "24e124136d151368-temperature": {
+        "in": {
+            "unitId": 5,
+            "register": "input",
+            "address": 5,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "server_room"
+        },
+        "value": null
+    },
+    "24e124136d151547-temperature": {
+        "in": {
+            "unitId": 6,
+            "register": "input",
+            "address": 6,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "storage"
+        },
+        "value": null
+    },
+    "24e124785c421885-temperature": {
+        "in": {
+            "unitId": 7,
+            "register": "input",
+            "address": 7,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "class_a"
+        },
+        "value": null
+    },
+    "24e124136d150970-temperature": {
+        "in": {
+            "unitId": 8,
+            "register": "input",
+            "address": 8,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "office/room2"
+        },
+        "value": null
+    },
+    "24e124785c389010-temperature": {
+        "in": {
+            "unitId": 9,
+            "register": "input",
+            "address": 9,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "lobby"
+        },
+        "value": null
+    },
+    "24e124126d152969-humidity": {
+        "in": {
+            "unitId": 11,
+            "register": "input",
+            "address": 11,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "class_a"
+        },
+        "value": null
+    },
+    "24e124128c067999-humidity": {
+        "in": {
+            "unitId": 12,
+            "register": "input",
+            "address": 12,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "class_a"
+        },
+        "value": null
+    },
+    "24e124785c421885-humidity": {
+        "in": {
+            "unitId": 13,
+            "register": "input",
+            "address": 13,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "class_a"
+        },
+        "value": null
+    },
+    "24e124128c140101-humidity": {
+        "in": {
+            "unitId": 14,
+            "register": "input",
+            "address": 14,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "class_b"
+        },
+        "value": null
+    },
+    "24e124785c389010-humidity": {
+        "in": {
+            "unitId": 15,
+            "register": "input",
+            "address": 15,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "lobby"
+        },
+        "value": null
+    },
+    "24e124126d152919-humidity": {
+        "in": {
+            "unitId": 16,
+            "register": "input",
+            "address": 16,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "office"
+        },
+        "value": null
+    },
+    "24e124136d151547-humidity": {
+        "in": {
+            "unitId": 17,
+            "register": "input",
+            "address": 17,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "storage"
+        },
+        "value": null
+    },
+    "24e124136d151368-humidity": {
+        "in": {
+            "unitId": 18,
+            "register": "input",
+            "address": 18,
+            "ratio": 0.01
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "server_room"
+        },
+        "value": null
+    },
+    "24e124128c067999-co2": {
+        "in": {
+            "unitId": 21,
+            "register": "input",
+            "address": 21,
+            "ratio": 1
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "class_a"
+        },
+        "value": null
+    },
+    "24e124128c140101-co2": {
+        "in": {
+            "unitId": 22,
+            "register": "input",
+            "address": 22,
+            "ratio": 1
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "class_b"
+        },
+        "value": null
+    },
+    "24e124126d152590-co2": {
+        "in": {
+            "unitId": 23,
+            "register": "input",
+            "address": 23,
+            "ratio": 1
+        },
+        "out": {
+            "site": "nhnacademy",
+            "branch": "gyeongnam",
+            "place": "classroom"
+        },
+        "value": null
+    }
+}
