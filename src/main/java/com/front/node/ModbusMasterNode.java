@@ -59,8 +59,6 @@ public class ModbusMasterNode extends InputOutputNode {
             Socket socket = this.socket;
             BufferedOutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
             BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream());
-            FileReader reader = new FileReader(
-                    "src/main/java/com/front/resources/pdu.json");
 
             // JSON 파일에서 설정 읽기
             FileReader reader = new FileReader("src/main/java/com/front/resources/pdu.json");
