@@ -14,30 +14,18 @@ import org.json.simple.parser.ParseException;
 import com.front.SimpleMB;
 import com.front.message.ModbusMessage;
 
-/**
- * Modbus 프로토콜을 사용하여 데이터를 읽어오는 노드 클래스입니다. {@code InputOutputNode}를 상속합니다.
- */
-public class ModbusReadNode extends InputOutputNode {
-    /** Modbus 통신에 사용될 포트 번호 */
+public class ModbusMasterNode extends InputOutputNode {
     int port;
 
     /** JSON 파서 객체 */
     JSONParser parser = new JSONParser();
+    Socket socket = null;
 
-    /**
-     * 기본 생성자. 입력 및 출력 와이어 수가 1로 설정됩니다.
-     */
-    public ModbusReadNode() {
+    public ModbusMasterNode() {
         this(1, 1);
     }
 
-    /**
-     * 입력 및 출력 와이어 수를 지정하여 노드를 생성합니다.
-     *
-     * @param inCount  입력 와이어 수.
-     * @param outCount 출력 와이어 수.
-     */
-    public ModbusReadNode(int inCount, int outCount) {
+    public ModbusMasterNode(int inCount, int outCount) {
         super(inCount, outCount);
     }
 
@@ -50,11 +38,14 @@ public class ModbusReadNode extends InputOutputNode {
         this.port = port;
     }
 
-    /** 100초마다 반복 */
+    public void setClient(Socket socket) {
+        this.socket = socket;
+    }
+
     @Override
     void preprocess() {
-        // 전처리 작업
-        setInterval(1000 * 100);
+        //
+        setInterval(1000 * 10);
     }
 
     /**
@@ -64,9 +55,12 @@ public class ModbusReadNode extends InputOutputNode {
      */
     @Override
     void process() {
-        try (Socket socket = new Socket("127.0.0.1", 502);
-                BufferedOutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
-                BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream())) {
+        try {
+            Socket socket = this.socket;
+            BufferedOutputStream outputStream = new BufferedOutputStream(socket.getOutputStream());
+            BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream());
+            FileReader reader = new FileReader(
+                    "src/main/java/com/front/resources/pdu.json");
 
             // JSON 파일에서 설정 읽기
             FileReader reader = new FileReader("src/main/java/com/front/resources/pdu.json");

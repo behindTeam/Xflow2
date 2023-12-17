@@ -6,7 +6,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 
 import com.front.node.ModBusMapperNode;
 import com.front.node.ModbusMessageGenertorNode;
-import com.front.node.ModbusReadNode;
+import com.front.node.ModbusMasterNode;
 import com.front.node.ModbusServerNode;
 import com.front.node.MqttMessageGeneratorNode;
 import com.front.node.MqttOutNode;
@@ -17,7 +17,7 @@ import com.front.wire.Wire;
 public class ModbusToModbusTest {
     public static void main(String[] args) {
 
-        ModbusReadNode reader = new ModbusReadNode();
+        ModbusMasterNode reader = new ModbusMasterNode();
         ModBusMapperNode mapperNode = new ModBusMapperNode();
         RuleEngineNode ruleEngine = new RuleEngineNode();
         ModbusMessageGenertorNode modbusMessageGenerator = new ModbusMessageGenertorNode();

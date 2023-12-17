@@ -5,32 +5,21 @@ import java.util.Map;
 
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 
-/**
- * 클라이언트들의 목록을 관리하는 싱글톤 클래스입니다.
- */
-public class ClientList {
+// client들의 목록을 관리하는 singleton 클래스
+public class IMqttClientList {
 
     /**
      * map<String id, IMqttClient client>를 관리한다.
      */
     private Map<String, IMqttClient> map;
 
-    /**
-     * 싱글톤 인스턴스
-     */
-    private static final ClientList clientList = new ClientList();
+    private static final IMqttClientList clientList = new IMqttClientList();
 
-    // private 생성자를 통해 외부에서의 직접적인 인스턴스 생성을 막는다.
-    private ClientList() {
+    private IMqttClientList() {
         map = new HashMap<>();
     }
 
-    /**
-     * 싱글톤 인스턴스를 반환합니다.
-     *
-     * @return ClientList의 싱글톤 인스턴스
-     */
-    public static ClientList getClientList() {
+    public static IMqttClientList getClientList() {
         return clientList;
     }
 

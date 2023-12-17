@@ -78,11 +78,6 @@ public class MessageParsingNode extends InputOutputNode {
         //
     }
 
-    /**
-     * MQTT 메시지를 파싱하여 필요한 정보를 추출하고, 설정된 조건에 따라 출력 메시지를 생성하여 전송
-     * 
-     * @param myMqttMessage 파싱할 MQTT 메시지 객체
-     */
     public void messageParsing(MyMqttMessage myMqttMessage) {
         try {
             JSONObject payload = (JSONObject) parser.parse(new String(myMqttMessage.getPayload()));
