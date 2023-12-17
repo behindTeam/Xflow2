@@ -1,5 +1,8 @@
 package com.front.test;
 
+import java.io.IOException;
+import java.net.Socket;
+
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -24,6 +27,14 @@ public class ModbustoMqttTest {
         MqttMessageGeneratorNode mqttmessage = new MqttMessageGeneratorNode();
         MqttOutNode mqttOutNode = new MqttOutNode();
         IMqttClient hostClient = null;
+
+        Socket socket = null;
+        try {
+            socket = new Socket("127.0.0.1", 502);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        reader.setClient(socket);
 
         try {
             hostClient = new MqttClient("tcp://localhost", "hello");
